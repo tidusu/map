@@ -25,7 +25,7 @@
 <body>
     <div id='map'></div>
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoidGlkdXN1IiwiYSI6InUydm90aGcifQ.Euyt9iGBfTtCAO8xflSyww';
+        mapboxgl.accessToken = 'pk.eyJ1IjoidGlkdXN1IiwiYSI6ImNqdHNmZmMyMTBvaWEzenFuYnJqZGZuYXgifQ.rgANmha7a4N1kyDMmE_1mA';
         var map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -103,8 +103,6 @@
                 }
             });
 
-
-
             map.addControl(new mapboxgl.GeolocateControl({
                 positionOptions: {
                     enableHighAccuracy: true
@@ -112,9 +110,6 @@
                 trackUserLocation: true
             }));
         });
-
-
-
 
         // map.on('load', function () {
         //     if (navigator.geolocation) {
