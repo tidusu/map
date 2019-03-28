@@ -45,7 +45,7 @@
                             "type": "Polygon",
                             "coordinates": [
                                 [
-                                    
+
                                     [
                                         121.504325866699,
                                         31.3058853149414
@@ -77,17 +77,43 @@
                 }
             });
             // Add geolocate control to the map.
+            map.addLayer({
+                'id': 'off-leash-areas',
+                'type': 'symbol',
+                // data from opendata.cityofboise.org/
+                'source': {
+                    'type': 'geojson',
+                    'data': {
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                121.50448948144913,
+                                31.305970358131276
+                            ]
+                        }
+                    }
+                },
+                "layout": {
+                    // "icon-image": 'dog-park-11',
+                    "text-field": 'wtw6hghf',
+                    "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                    "text-offset": [0, 0.6],
+                    "text-anchor": "center"
+                }
+            });
 
+
+
+            map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            }));
         });
 
-    
 
-        map.addControl(new mapboxgl.GeolocateControl({
-            positionOptions: {
-                enableHighAccuracy: true
-            },
-            trackUserLocation: true
-        }));
 
 
         // map.on('load', function () {
