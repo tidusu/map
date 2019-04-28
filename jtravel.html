@@ -55,9 +55,18 @@
             padding: 20px 2px;
         }
 
+        h3 {
+            font-size: 14px;
+        }
+
+        h4 {
+            font-size: 12px;
+        }
+
         a {
-            color: #404040;
+            color: #ffffff;
             text-decoration: none;
+            font-size: 12px;
         }
 
         a:hover {
@@ -150,7 +159,7 @@
 
         /* Marker tweaks */
         .mapboxgl-popup {
-            padding-bottom: 50px;
+            padding-bottom: 30px;
         }
 
         .mapboxgl-popup-close-button {
@@ -172,7 +181,7 @@
             color: #fff;
             margin: 0;
             display: block;
-            padding: 10px;
+            padding: 5px 10px 5px 10px;
             border-radius: 3px 3px 0 0;
             font-weight: 700;
             margin-top: -15px;
@@ -181,12 +190,12 @@
         .mapboxgl-popup-content h4 {
             margin: 0;
             display: block;
-            padding: 10px 10px 10px 10px;
+            padding: 5px 10px 5px 10px;
             font-weight: 400;
         }
 
         .mapboxgl-popup-content div {
-            padding: 10px;
+            padding: 5px;
         }
 
         .mapboxgl-container .leaflet-marker-icon {
@@ -194,7 +203,7 @@
         }
 
         .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
-            margin-top: 15px;
+            margin-top: 5px;
         }
 
         .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
@@ -206,12 +215,13 @@
 <body>
     <div class='sidebar'>
         <div class='heading'>
-            <h1>locations</h1>
+            <h1>locations <a id="language" href="javascript:void(0);" onclick="changelan()">En</a></h1>
         </div>
         <div id='listings' class='listings'></div>
     </div>
     <div id='map' class='map'> </div>
-    <script src='poi.js'></script>
+    <script src='js/poi.js'></script>
+    <script src='js/utils.js'></script>
     <script>
         // This will let you use the .remove() function later on
         if (!('remove' in Element.prototype)) {
@@ -230,7 +240,9 @@
             // container id specified in the HTML
             container: 'map',
             // style URL
-            style: 'mapbox://styles/mapbox/streets-v11',
+
+            // style: 'mapbox://styles/mapbox/streets-v11',
+            style: 'mapbox://styles/tidusu/cjbxnenp6d8sv2sqdoprjhi7x',
             // initial position in [long, lat] format
             center: [135.758645, 35.000869],
             // initial zoom
@@ -240,11 +252,13 @@
 
         // This adds the data to the map
         map.on('load', function (e) {
+            
             // This is where your '.addLayer()' used to be, instead add only the source without styling a layer
             map.addSource("places", {
                 "type": "geojson",
                 "data": poi
             });
+
             // Initialize the list
             buildLocationList(poi);
 
@@ -298,16 +312,23 @@
             var popUps = document.getElementsByClassName('mapboxgl-popup');
             if (popUps[0]) popUps[0].remove();
 
+            lat = currentFeature.geometry.coordinates[1];
+            lng = currentFeature.geometry.coordinates[0];
+            map_link = "javascript:if(confirm('是否打开导航地图'))\{location='http://www.google.cn/maps/place/" + lat + "," +
+                lng + "/@" + lat + "," + lng + ",15z'\}";
+
+            // link = "<a" + "href=" + map_link + "\">" + H3 + H4 + "</a>"
+            H3 = '<h3>' + "<a " + "href=" + map_link + ">" + currentFeature.properties.Name + "</a>" + '</h3>';
+            H4 = '<h4>' + currentFeature.properties.icon + '</h4>';
+            link = H3 + H4;
 
             var popup = new mapboxgl.Popup({
                     closeOnClick: false
                 })
                 .setLngLat(currentFeature.geometry.coordinates)
-                .setHTML('<h3>'+ currentFeature.properties.Name + '</h3>' +
-                    '<h4>' + currentFeature.properties.icon + '</h4>')
+                .setHTML(link)
                 .addTo(map);
         }
-
 
         function buildLocationList(data) {
             for (i = 0; i < data.features.length; i++) {
@@ -331,8 +352,6 @@
                     details.innerHTML += ' &middot; ' + prop.phoneFormatted;
                 }
 
-
-
                 link.addEventListener('click', function (e) {
                     // Update the currentFeature to the store associated with the clicked link
                     var clickedListing = data.features[this.dataPosition];
@@ -354,6 +373,41 @@
                 });
             }
         }
+
+        function changelan() {
+            var lang_Btn = document.getElementById('language');
+            lang_Btn.addEventListener('click', function (e) {
+                var language1 = 'en';
+                var language2 = 'ja';
+                var language3 = 'zh-Hans';
+                
+                if(lang_Btn.text=='En'){
+                    change_language(language2);
+                    // lang_Btn.setAttribute('text', '日');
+                    lang_Btn.innerText = '日';
+                    
+                    console.log(lang_Btn.text)
+                };
+                if(lang_Btn.text=='日'){
+                    change_language(language3);
+                    // lang_Btn.setAttribute('text', '中');
+                    lang_Btn.innerText = '中';
+
+                    console.log(lang_Btn.text)
+                };
+                if(lang_Btn.text=='中'){
+                    change_language(language1);
+                    // lang_Btn.setAttribute('text', 'En');
+                    lang_Btn.innerText = 'En';
+
+                    console.log(lang_Btn.text)
+                };
+            });
+            
+        }
+
+        
+
     </script>
 </body>
 
