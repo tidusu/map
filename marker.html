@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Add custom icons with Markers</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <style>
+        .marker {
+            display: block;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+        }
+    </style>
+
+    <div id='map'></div>
+    <script src='poi.js'></script>
+    <script>
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoidGlkdXN1IiwiYSI6ImNqdHNndGM2bjB4Y3c0MnIwbHg4Y20xNmgifQ.KiFS1iqSrCMvik2S_AC7WA';
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [135.758645, 35.000869],
+            zoom: 14
+        });
+
+        var markerWidth = 50, markerHeight = 50, markerRadius = 10, linearOffset = 25;
+        var popupOffsets = {
+            'top': [0, 0],
+            'top-left': [0,0],
+            'top-right': [0,0],
+            'bottom': [0, -markerHeight],
+            'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+            'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+            'left': [markerRadius, (markerHeight - markerRadius) * -1],
+            'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+        };
+
+        // add markers to map
+        poi.features.forEach(function (marker) {
+            // create a DOM element for the marker
+            console.log(marker.properties.Name);
+            var el = document.createElement('div');
+            el.className = 'marker';
+            // el.style.backgroundImage = 'url(https://placekitten.com/g/' + marker.properties.iconSize.join('/') +'/)';
+            // el.style.width = marker.properties.iconSize[0] + 'px';
+            // el.style.height = marker.properties.iconSize[1] + 'px';    
+            el.style.backgroundImage = 'url(food.png)';        
+            el.style.width = markerWidth + 'px';
+            el.style.height = markerHeight + 'px';
+            
+            // create the popup
+            var popup = new mapboxgl.Popup({
+                offset: popupOffsets,
+                closeButton: false,
+                isOpen: true
+
+            })
+            .setText(marker.properties.Name);
+
+            // el.addEventListener('click', function () {
+            //     window.alert(marker.properties.message);
+            // });
+
+            // add marker to map
+            new mapboxgl.Marker(el)
+                .setLngLat(marker.geometry.coordinates)
+                .setPopup(popup)
+                .addTo(map);
+        });
+    </script>
+
+</body>
+
+</html>
