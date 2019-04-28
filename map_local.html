@@ -1,3 +1,5 @@
+<!-- local test for js sqritejson sqritepng -->
+
 <!DOCTYPE html>
 <html>
 
@@ -5,7 +7,8 @@
     <meta charset='utf-8' />
     <title>Draw GeoJSON points</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
+    <!-- <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script> -->
+    <script src='js/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
     <style>
         body {
@@ -49,6 +52,8 @@
             map.addLayer({
                 "id": "points",
                 "type": "symbol",
+                "maxzoom": 3,
+                "minzoom": 20,
                 "source": {
                     "type": "geojson",
                     "data": {
@@ -417,7 +422,7 @@
                 },
                 "layout": {
                     "icon-image": "restaurant-15",
-                    "icon-size": 1,
+                    // "icon-size": 1,
                     "text-field": "{Name}",
                     "text-font": ["Source Han Sans CN Regular", "Open Sans Semibold",
                         "Arial Unicode MS Bold"
@@ -426,7 +431,11 @@
                     "icon-allow-overlap": true,
                     "text-allow-overlap": false,
                     "text-optional": true,
+                    // "text-size": {
+                    //     "stops": [[0, 1], [6, 64]]
+                    // },
                     "text-anchor": "top"
+
                 }
                 // ,
                 // "paint": {
