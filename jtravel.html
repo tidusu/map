@@ -10,33 +10,34 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
     <link href='css/jtravel.css' rel='stylesheet' />
+    <script src="https://code.jquery.com/jquery-3.4.0.slim.min.js" integrity="sha256-ZaXnYkHGqIhqTbJ6MB4l9Frs/r7U4jlx7ir8PJYBqbI="
+  crossorigin="anonymous"></script>
 
 </head>
 
 <body>
-    <div class='sidebar'>
+    <div class='hide_btn' ><input id='sbutton' type='checkbox' checked='checked'></div>
+    
+    <div class='sidebar transform'>
         <div class='heading'>
             <h1>locations </h1>
-            <a id="language" href="javascript:void(0);" onclick="change_language('en')">En</a>
-            <a id="language" href="javascript:void(0);" onclick="change_language('zh-Hans')">中</a>
-            <a id="language" href="javascript:void(0);" onclick="change_language('ja')">日</a>
-            <a id="mapstyle" href="javascript:void(0);" onclick="change_language('ja')">light</a>
-            <a id="mapstyle" href="javascript:void(0);" onclick="change_language('ja')">street</a>
-            <a id="mapstyle" href="javascript:void(0);" onclick="change_language('ja')">satellite</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('en')">|  En  |</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('zh-Hans')">  中  |</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('ja')">  日  |</a>
             <div id='menu'>
                 <input id='mapbox://styles/tidusu/cjbxnenp6d8sv2sqdoprjhi7x' type='radio' name='rtoggle' value='classic' checked='checked'>
-                <label for='classic'>classic</label>
+                <label for='classic'>老久</label>
                 <input id='mapbox://styles/mapbox/streets-v11' type='radio' name='rtoggle' value='streets'>
-                <label for='streets'>streets</label>
+                <label for='streets'>街道</label>
                 <input id='mapbox://styles/mapbox/light-v10' type='radio' name='rtoggle' value='light'>
-                <label for='light'>light</label>
+                <label for='light'>淡雅</label>
                 <input id='mapbox://styles/mapbox/satellite-v9' type='radio' name='rtoggle' value='satellite'>
-                <label for='satellite'>satellite</label>
+                <label for='satellite'>卫星</label>
             </div>
         </div>
         <div id='listings' class='listings'></div>
     </div>
-    <div id='map' class='map'> </div>
+    <div id='map' class='map maptransform'> </div>
     <script src='js/poi.js'></script>
     <script src='js/utils.js'></script>
     <script>
@@ -201,6 +202,12 @@
             var layerId = layer.target.id;
             map.setStyle(layerId);
         }
+
+        $("#sbutton").click(function() {
+            console.log('hit')
+            $('.transform').toggleClass('transform-active');
+            $('.maptransform').toggleClass('maptransform-active');
+        });
     </script>
 </body>
 
