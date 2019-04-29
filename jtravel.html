@@ -21,9 +21,9 @@
     <div class='sidebar transform'>
         <div class='heading'>
             <h1>locations </h1>
-            <a id="language" href="javascript:void(0);" onclick="change_language('en')">|  En  |</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('ja')">|  日  |</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('en')">  En  |</a>
             <a id="language" href="javascript:void(0);" onclick="change_language('zh-Hans')">  中  |</a>
-            <a id="language" href="javascript:void(0);" onclick="change_language('ja')">  日  |</a>
             <div id='menu'>
                 <input id='mapbox://styles/tidusu/cjbxnenp6d8sv2sqdoprjhi7x' type='radio' name='rtoggle' value='classic' checked='checked'>
                 <label for='classic'>老久</label>
@@ -31,7 +31,7 @@
                 <label for='streets'>街道</label>
                 <input id='mapbox://styles/mapbox/light-v10' type='radio' name='rtoggle' value='light'>
                 <label for='light'>淡雅</label>
-                <input id='mapbox://styles/mapbox/satellite-v9' type='radio' name='rtoggle' value='satellite'>
+                <input id='mapbox://styles/tidusu/cjv2jbx6z0fno1fpjqw0a07tr' type='radio' name='rtoggle' value='satellite'>
                 <label for='satellite'>卫星</label>
             </div>
         </div>
@@ -81,6 +81,8 @@
 
             // Initialize the list
             buildLocationList(poi);
+
+            change_language('ja');
 
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].onclick = switchLayer;
