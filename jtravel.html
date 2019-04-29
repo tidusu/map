@@ -9,213 +9,30 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='css/jtravel.css' rel='stylesheet' />
 
-    <style>
-        body {
-            color: #404040;
-            font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        .sidebar {
-            position: absolute;
-            width: 33.3333%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            border-right: 1px solid rgba(0, 0, 0, 0.25);
-        }
-
-        .pad2 {
-            padding: 20px;
-        }
-
-        .map {
-            position: absolute;
-            left: 33.3333%;
-            width: 66.6666%;
-            top: 0;
-            bottom: 0;
-        }
-
-        h1 {
-            font-size: 22px;
-            margin: 0;
-            font-weight: 400;
-            line-height: 20px;
-            padding: 20px 2px;
-        }
-
-        h3 {
-            font-size: 14px;
-        }
-
-        h4 {
-            font-size: 12px;
-        }
-
-        a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 12px;
-        }
-
-        a:hover {
-            color: #101010;
-        }
-
-        .heading {
-            background: #fff;
-            border-bottom: 1px solid #eee;
-            min-height: 60px;
-            line-height: 60px;
-            padding: 0 10px;
-            background-color: #00853e;
-            color: #fff;
-        }
-
-        .listings {
-            height: 100%;
-            overflow: auto;
-            padding-bottom: 60px;
-        }
-
-        .listings .item {
-            display: block;
-            border-bottom: 1px solid #eee;
-            padding: 10px;
-            text-decoration: none;
-        }
-
-        .listings .item:last-child {
-            border-bottom: none;
-        }
-
-        .listings .item .title {
-            display: block;
-            color: #00853e;
-            font-weight: 700;
-        }
-
-        .listings .item .title small {
-            font-weight: 400;
-        }
-
-        .listings .item.active .title,
-        .listings .item .title:hover {
-            color: #8cc63f;
-        }
-
-        .listings .item.active {
-            background-color: #f8f8f8;
-        }
-
-        ::-webkit-scrollbar {
-            width: 3px;
-            height: 3px;
-            border-left: 0;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        ::-webkit-scrollbar-track {
-            background: none;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #00853e;
-            border-radius: 0;
-        }
-
-        .marker {
-            border: none;
-            cursor: pointer;
-            height: 28px;
-            width: 28px;
-            background-image: url(marker@2x.png);
-            background-size: cover;
-            background-color: rgba(0, 0, 0, 0);
-        }
-
-        .clearfix {
-            display: block;
-        }
-
-        .clearfix:after {
-            content: '.';
-            display: block;
-            height: 0;
-            clear: both;
-            visibility: hidden;
-        }
-
-        /* Marker tweaks */
-        .mapboxgl-popup {
-            padding-bottom: 30px;
-        }
-
-        .mapboxgl-popup-close-button {
-            display: none;
-        }
-
-        .mapboxgl-popup-content {
-            font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
-            padding: 0;
-            width: 180px;
-        }
-
-        .mapboxgl-popup-content-wrapper {
-            padding: 1%;
-        }
-
-        .mapboxgl-popup-content h3 {
-            background: #91c949;
-            color: #fff;
-            margin: 0;
-            display: block;
-            padding: 5px 10px 5px 10px;
-            border-radius: 3px 3px 0 0;
-            font-weight: 700;
-            margin-top: -15px;
-        }
-
-        .mapboxgl-popup-content h4 {
-            margin: 0;
-            display: block;
-            padding: 5px 10px 5px 10px;
-            font-weight: 400;
-        }
-
-        .mapboxgl-popup-content div {
-            padding: 5px;
-        }
-
-        .mapboxgl-container .leaflet-marker-icon {
-            cursor: pointer;
-        }
-
-        .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
-            margin-top: 5px;
-        }
-
-        .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
-            border-bottom-color: #91c949;
-        }
-    </style>
 </head>
 
 <body>
     <div class='sidebar'>
         <div class='heading'>
-            <h1>locations <a id="language" href="javascript:void(0);" onclick="changelan()">En</a></h1>
+            <h1>locations </h1>
+            <a id="language" href="javascript:void(0);" onclick="change_language('en')">En</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('zh-Hans')">中</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('ja')">日</a>
+            <a id="mapstyle" href="javascript:void(0);" onclick="change_language('ja')">light</a>
+            <a id="mapstyle" href="javascript:void(0);" onclick="change_language('ja')">street</a>
+            <a id="mapstyle" href="javascript:void(0);" onclick="change_language('ja')">satellite</a>
+            <div id='menu'>
+                <input id='mapbox://styles/tidusu/cjbxnenp6d8sv2sqdoprjhi7x' type='radio' name='rtoggle' value='classic' checked='checked'>
+                <label for='classic'>classic</label>
+                <input id='mapbox://styles/mapbox/streets-v11' type='radio' name='rtoggle' value='streets'>
+                <label for='streets'>streets</label>
+                <input id='mapbox://styles/mapbox/light-v10' type='radio' name='rtoggle' value='light'>
+                <label for='light'>light</label>
+                <input id='mapbox://styles/mapbox/satellite-v9' type='radio' name='rtoggle' value='satellite'>
+                <label for='satellite'>satellite</label>
+            </div>
         </div>
         <div id='listings' class='listings'></div>
     </div>
@@ -223,6 +40,8 @@
     <script src='js/poi.js'></script>
     <script src='js/utils.js'></script>
     <script>
+        var layerList = document.getElementById('menu');
+        var inputs = layerList.getElementsByTagName('input');
         // This will let you use the .remove() function later on
         if (!('remove' in Element.prototype)) {
             Element.prototype.remove = function () {
@@ -252,7 +71,7 @@
 
         // This adds the data to the map
         map.on('load', function (e) {
-            
+
             // This is where your '.addLayer()' used to be, instead add only the source without styling a layer
             map.addSource("places", {
                 "type": "geojson",
@@ -261,6 +80,10 @@
 
             // Initialize the list
             buildLocationList(poi);
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].onclick = switchLayer;
+            }
 
         });
 
@@ -374,40 +197,10 @@
             }
         }
 
-        function changelan() {
-            var lang_Btn = document.getElementById('language');
-            lang_Btn.addEventListener('click', function (e) {
-                var language1 = 'en';
-                var language2 = 'ja';
-                var language3 = 'zh-Hans';
-                
-                if(lang_Btn.text=='En'){
-                    change_language(language2);
-                    // lang_Btn.setAttribute('text', '日');
-                    lang_Btn.innerText = '日';
-                    
-                    console.log(lang_Btn.text)
-                };
-                if(lang_Btn.text=='日'){
-                    change_language(language3);
-                    // lang_Btn.setAttribute('text', '中');
-                    lang_Btn.innerText = '中';
-
-                    console.log(lang_Btn.text)
-                };
-                if(lang_Btn.text=='中'){
-                    change_language(language1);
-                    // lang_Btn.setAttribute('text', 'En');
-                    lang_Btn.innerText = 'En';
-
-                    console.log(lang_Btn.text)
-                };
-            });
-            
+        function switchLayer(layer) {
+            var layerId = layer.target.id;
+            map.setStyle(layerId);
         }
-
-        
-
     </script>
 </body>
 

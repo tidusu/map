@@ -1,4 +1,7 @@
 function change_language(lan) {
+    // var language1 = 'en';
+    // var language2 = 'ja';
+    // var language3 = 'zh-Hans';
     var language = lan
     map.setLayoutProperty('country-label-lg', 'text-field', '{name_' + language + '}');
     map.setLayoutProperty('port-cities-west-lg', 'text-field', '{name_' + language + '}');
@@ -30,4 +33,8 @@ function change_language(lan) {
     map.setLayoutProperty('road-label-lg', 'text-field', '{name_' + language + '}');
     map.setLayoutProperty('road-label-sm', 'text-field', '{name_' + language + '}');
     map.setLayoutProperty('waterway-label', 'text-field', '{name_' + language + '}');
+}
+
+function change_style(lan) {
+    
 }
