@@ -152,6 +152,34 @@ a:hover {
     background-color: rgba(0, 0, 0, 0);
 }
 
+.marker_hotel {
+    border: none;
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    background-image: url(hotel@2x.png);
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.marker_site {
+    border: none;
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    background-image: url(site@2x.png);
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0);
+}
+.marker_snack {
+    border: none;
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    background-image: url(snack@2x.png);
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0);
+}
 .clearfix {
     display: block;
 }

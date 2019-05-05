@@ -10,28 +10,30 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
     <link href='css/jtravel.css' rel='stylesheet' />
-    <script src="https://code.jquery.com/jquery-3.4.0.slim.min.js" integrity="sha256-ZaXnYkHGqIhqTbJ6MB4l9Frs/r7U4jlx7ir8PJYBqbI="
-  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.0.slim.min.js"
+        integrity="sha256-ZaXnYkHGqIhqTbJ6MB4l9Frs/r7U4jlx7ir8PJYBqbI=" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
-    <div class='hide_btn' ><input id='sbutton' type='checkbox' checked='checked'></div>
-    
+    <div class='hide_btn'><input id='sbutton' type='checkbox' checked='checked'></div>
+
     <div class='sidebar transform'>
         <div class='heading'>
             <h1>locations </h1>
-            <a id="language" href="javascript:void(0);" onclick="change_language('ja')">|  日  |</a>
-            <a id="language" href="javascript:void(0);" onclick="change_language('en')">  En  |</a>
-            <a id="language" href="javascript:void(0);" onclick="change_language('zh-Hans')">  中  |</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('ja')">| 日 |</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('en')"> En |</a>
+            <a id="language" href="javascript:void(0);" onclick="change_language('zh-Hans')"> 中 |</a>
             <div id='menu'>
-                <input id='mapbox://styles/tidusu/cjbxnenp6d8sv2sqdoprjhi7x' type='radio' name='rtoggle' value='classic' checked='checked'>
+                <input id='mapbox://styles/tidusu/cjbxnenp6d8sv2sqdoprjhi7x' type='radio' name='rtoggle' value='classic'
+                    checked='checked'>
                 <label for='classic'>老久</label>
                 <input id='mapbox://styles/mapbox/streets-v11' type='radio' name='rtoggle' value='streets'>
                 <label for='streets'>街道</label>
                 <input id='mapbox://styles/mapbox/light-v10' type='radio' name='rtoggle' value='light'>
                 <label for='light'>淡雅</label>
-                <input id='mapbox://styles/tidusu/cjv2jbx6z0fno1fpjqw0a07tr' type='radio' name='rtoggle' value='satellite'>
+                <input id='mapbox://styles/tidusu/cjv2jbx6z0fno1fpjqw0a07tr' type='radio' name='rtoggle'
+                    value='satellite'>
                 <label for='satellite'>卫星</label>
             </div>
         </div>
@@ -79,6 +81,23 @@
                 "data": poi
             });
 
+            map.addLayer({
+                "id": "route",
+                "type": "line",
+                "source": {
+                    "type": "geojson",
+                    "data":line1
+                },
+                "layout": {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                "paint": {
+                    "line-color": "#0192FA",
+                    "line-opacity": 0.5,
+                    "line-width": 8
+                }
+            });
             // Initialize the list
             buildLocationList(poi);
 
@@ -96,10 +115,23 @@
             // Create an img element for the marker
             var el = document.createElement('div');
             el.id = "marker-" + i;
-            el.className = 'marker';
+            if (marker.properties.icon == 'hotel'){
+                el.className = 'marker_hotel';
+            }else if(marker.properties.icon == 'site'){
+                el.className = 'marker_site';
+            }else if(marker.properties.icon == 'drink'){
+                el.className = 'marker_snack';
+            }else if(marker.properties.icon == 'hotel'){
+                el.className = 'marker_hotel';
+            }else if(marker.properties.icon == 'hotel'){
+                el.className = 'marker';
+            }else{
+                el.className = 'marker';
+            }
+            
             // Add markers to the map at all points
             new mapboxgl.Marker(el, {
-                    offset: [0, -23],
+                    offset: [0, -14],
 
                 })
                 .setLngLat(marker.geometry.coordinates)
@@ -205,7 +237,7 @@
             map.setStyle(layerId);
         }
 
-        $("#sbutton").click(function() {
+        $("#sbutton").click(function () {
             console.log('hit')
             $('.transform').toggleClass('transform-active');
             $('.maptransform').toggleClass('maptransform-active');
