@@ -40,6 +40,10 @@
         <div id='listings' class='listings'></div>
     </div>
     <div id='map' class='map maptransform'> </div>
+    <!-- filter -->
+    <div class='filter-ctrl'>
+        <input id='filter-input' type='text' name='filter' placeholder='Filter by name' />
+    </div>
     <script src='js/poi.js'></script>
     <script src='js/utils.js'></script>
     <script>
@@ -81,12 +85,33 @@
                 "data": poi
             });
 
+            
+            // map.addLayer({
+            //     "type": "symbol",
+            //     "source": "places",
+            //     "layout": {
+            //         "icon-image": "restaurant-15",
+            //         "text-field": places.properties.icon,
+            //         // "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+            //         "text-size": 11,
+            //         "text-transform": "uppercase",
+            //         "text-letter-spacing": 0.05,
+            //         "text-offset": [0, 1.5]
+            //     },
+            //     "paint": {
+            //         "text-color": "#202",
+            //         "text-halo-color": "#fff",
+            //         "text-halo-width": 2
+            //     },
+            //     "filter": ["==", "icon", symbol]
+            // });
+
             map.addLayer({
                 "id": "route",
                 "type": "line",
                 "source": {
                     "type": "geojson",
-                    "data":line1
+                    "data": line1
                 },
                 "layout": {
                     "line-join": "round",
@@ -115,20 +140,20 @@
             // Create an img element for the marker
             var el = document.createElement('div');
             el.id = "marker-" + i;
-            if (marker.properties.icon == 'hotel'){
+            if (marker.properties.icon == 'hotel') {
                 el.className = 'marker_hotel';
-            }else if(marker.properties.icon == 'site'){
+            } else if (marker.properties.icon == 'site') {
                 el.className = 'marker_site';
-            }else if(marker.properties.icon == 'drink'){
+            } else if (marker.properties.icon == 'drink') {
                 el.className = 'marker_snack';
-            }else if(marker.properties.icon == 'hotel'){
+            } else if (marker.properties.icon == 'hotel') {
                 el.className = 'marker_hotel';
-            }else if(marker.properties.icon == 'hotel'){
+            } else if (marker.properties.icon == 'hotel') {
                 el.className = 'marker';
-            }else{
+            } else {
                 el.className = 'marker';
             }
-            
+
             // Add markers to the map at all points
             new mapboxgl.Marker(el, {
                     offset: [0, -14],
@@ -136,6 +161,8 @@
                 })
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(map);
+
+            
 
             el.addEventListener('click', function (e) {
                 // 1. Fly to the point
@@ -162,7 +189,7 @@
         function flyToStore(currentFeature) {
             map.flyTo({
                 center: currentFeature.geometry.coordinates,
-                zoom: 15
+                zoom: 14
             });
         }
 
