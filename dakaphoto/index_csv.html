@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='js/csv2geojson.js'></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuc3dpY2siLCJhIjoiY2l1dTUzcmgxMDJ0djJ0b2VhY2sxNXBiMyJ9.25Qs4HNEkHubd4_Awbd8Og';
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/streets-v8', //stylesheet location
+    center: [ -89.89709901792442, 41.29146740952274], // starting position
+    zoom: 3 // starting zoom
+});
+
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: './js/airports.csv',
+        dataType: "text",
+        success: function(csvData) {makeGeoJSON(csvData);}
+     });
+});
+
+function makeGeoJSON(csvData) {
+    csv2geojson.csv2geojson(csvData, {
+        latfield: 'latitude',
+        lonfield: 'longitude',
+        delimiter: ','
+    }, function(err, data) {
+        map.on('load', function () {
+            map.addLayer({
+                'id': 'airports',
+                'type': 'symbol',
+                'source': {
+                    'type': 'geojson',
+                    'data': data
+                },
+                'layout': {
+                    "icon-image": "marker-15"
+                },
+                'paint': {}
+            });
+        });    
+    });
+}
+</script>
+
+</body>
+</html>

@@ -25,7 +25,17 @@
             cursor: pointer;
             height: 36px;
             width: 36px;
-            background-image: url(css/citymark.png);
+            background-image: url(img/citymark.png);
+            background-size: cover;
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        .marker2 {
+            border: none;
+            cursor: pointer;
+            height: 51px;
+            width: 63px;
+            background-image: url(img/citymark2.png);
             background-size: cover;
             background-color: rgba(0, 0, 0, 0);
         }
@@ -46,9 +56,32 @@
             zoom: 2 // starting zoom
         });
 
+        var zoom = map.getZoom();
+
+        map.on('load', function () {
+            map.loadImage("https://i.imgur.com/MK4NUzI.png", function (error, image) { //this is where we load the image file
+                if (error) throw error;
+                map.addImage("custom-marker", image); //this is where we name the image file we are loading
+                map.addLayer({
+                    'id': "markers", //this is the name of the layer, it is what we will reference below
+                    'type': "symbol",
+                    'source': { //now we are adding the source to the layer more directly and cleanly
+                        type: "geojson",
+                        data: '../allday.json' // CHANGE THIS TO REFLECT WHERE YOUR DATA IS COMING FROM
+                    },
+                    'layout': {
+                        "icon-image": "custom-marker", // the name of image file we used above
+                        "icon-allow-overlap": false,
+                        "icon-size": 1 //this is a multiplier applied to the standard size. So if you want it half the size put ".5"
+                    }
+                })
+            })
+        })
+
+
         map.on('load', function () {
             map.addLayer({
-                "id": "circle",
+                "id": "world",
                 "type": "fill",
                 "minzoom": 2,
                 'source': {
@@ -57,31 +90,7 @@
                         'type': 'Feature',
                         "geometry": {
                             "type": "Polygon",
-                            "coordinates": [
-                                [
-
-                                    [
-                                        180,
-                                        90
-                                    ],
-                                    [
-                                        180,
-                                        -90
-                                    ],
-                                    [
-                                        -180,
-                                        -90
-                                    ],
-                                    [
-                                        -180,
-                                        90
-                                    ],
-                                    [
-                                        180,
-                                        90
-                                    ]
-                                ]
-                            ]
+                            "coordinates": [[[180, 90], [180, -90], [-180, -90], [-180, 90], [180, 90]]]
                         }
                     }
                 },
@@ -89,20 +98,15 @@
                     'fill-opacity': 0.7
                 },
             });
-            map.setPaintProperty('circle', 'fill-color', [
+            map.setPaintProperty('world', 'fill-color', [
                 "interpolate",
                 ["exponential", 0.5],
                 ["zoom"],
-                4,
-                "#541388",
-                6,
-                "#1D7BDF",
-                8,
-                "#00A627",
-                14,
-                '#F1B300',
-                20,
-                '#FFDB2E',
+                4, "#541388",
+                6, "#1D7BDF",
+                8, "#00A627",
+                14, '#F1B300',
+                20, '#FFDB2E',
             ]);
 
             map.addSource("places", {
@@ -113,30 +117,29 @@
             poi.features.forEach(function (marker, i) {
                 // Create an img element for the marker
                 var el = document.createElement('div');
-                el.id = "marker-" + i;
-                if (marker.properties.icon == 'hotel') {
-                    el.className = 'marker_hotel';
-                } else if (marker.properties.icon == 'site') {
-                    el.className = 'marker_site';
-                } else if (marker.properties.icon == 'drink') {
-                    el.className = 'marker_snack';
-                } else if (marker.properties.icon == 'hotel') {
-                    el.className = 'marker_hotel';
-                } else if (marker.properties.icon == 'hotel') {
-                    el.className = 'marker';
-                } else {
-                    el.className = 'marker';
-                }
+                el.id = "marker10";
+                // el.id = "marker-" + i;
+                el.className = 'marker';
+                // if (marker.properties.icon == 'hotel') {
+                //     el.className = 'marker_hotel';
+                // } else if (marker.properties.icon == 'site') {
+                //     el.className = 'marker_site';
+                // } else if (marker.properties.icon == 'drink') {
+                //     el.className = 'marker_snack';
+                // } else if (marker.properties.icon == 'hotel') {
+                //     el.className = 'marker_hotel';
+                // } else if (marker.properties.icon == 'hotel') {
+                //     el.className = 'marker';
+                // } else {
+                //     el.className = 'marker';
+                // }
 
                 // Add markers to the map at all points
                 new mapboxgl.Marker(el, {
-                        offset: [0, -14],
-
-                    })
+                    offset: [0, -18],
+                })
                     .setLngLat(marker.geometry.coordinates)
                     .addTo(map);
-
-
 
                 el.addEventListener('click', function (e) {
                     // // 1. Fly to the point
@@ -155,9 +158,9 @@
 
                     // var listing = document.getElementById('listing-' + i);
                     // listing.classList.add('active');
-
                 });
             });
+            map.setLayerZoomRange('marker10', 2, 5);
         });
     </script>
 </body>
