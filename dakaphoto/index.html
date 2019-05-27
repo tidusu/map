@@ -96,7 +96,7 @@ function makeGeoJSON(csvData) {
                         "icon-size": .5 //this is a multiplier applied to the standard size. So if you want it half the size put ".5"
                     }
                 })
-            });
+            }); 
 
             map.on('click', 'markers', function (e) {
                 var coordinates = e.features[0].geometry.coordinates.slice();
