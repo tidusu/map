@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>测试</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .marker {
+            border: none;
+            cursor: pointer;
+            height: 36px;
+            width: 36px;
+            background-image: url(img/citymark.png);
+            background-size: cover;
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        .marker2 {
+            border: none;
+            cursor: pointer;
+            height: 51px;
+            width: 63px;
+            background-image: url(img/citymark2.png);
+            background-size: cover;
+            background-color: rgba(0, 0, 0, 0);
+        }
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+    <script src='js/poi2.js'></script>
+    <script>
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoidGlkdXN1IiwiYSI6ImNqdHNndGM2bjB4Y3c0MnIwbHg4Y20xNmgifQ.KiFS1iqSrCMvik2S_AC7WA';
+
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [121.50454, 31.306], // starting position
+            zoom: 2 // starting zoom
+        });
+
+        var zoom = map.getZoom();
+
+        // 测试
+        // map.on('load', function () {
+        //     map.loadImage("http://pic.ifootbook.com/dakaphoto/citymark.png", function (error, image) { //this is where we load the image file
+        //         if (error) throw error;
+        //         map.addImage("custom-marker", image); //this is where we name the image file we are loading
+        //         map.addLayer({
+        //             'id': "markers", //this is the name of the layer, it is what we will reference below
+        //             'type': "symbol",
+        //             'source': { //now we are adding the source to the layer more directly and cleanly
+        //                 type: "geojson",
+        //                 data: '../allday.json' // CHANGE THIS TO REFLECT WHERE YOUR DATA IS COMING FROM
+        //             },
+        //             'layout': {
+        //                 "icon-image": "custom-marker", // the name of image file we used above
+        //                 "icon-allow-overlap": false,
+        //                 "icon-size": 1 //this is a multiplier applied to the standard size. So if you want it half the size put ".5"
+        //             }
+        //         })
+        //     })
+        // })
+
+        map.on('load', function () {
+            map.addLayer({
+                "id": "world",
+                "type": "fill",
+                "minzoom": 2,
+                'source': {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'Feature',
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [[[180, 90], [180, -90], [-180, -90], [-180, 90], [180, 90]]]
+                        }
+                    }
+                },
+                "paint": {
+                    'fill-opacity': 0.7
+                },
+            });
+            map.setPaintProperty('world', 'fill-color', [
+                "interpolate",
+                ["exponential", 0.5],
+                ["zoom"],
+                4, "#541388",
+                6, "#1D7BDF",
+                8, "#00A627",
+                14, '#F1B300',
+                20, '#FFDB2E',
+            ]);
+
+            map.addSource("places", {
+                "type": "geojson",
+                "data": poi
+            });
+
+            poi.features.forEach(function (marker, i) {
+                // Create an img element for the marker
+                var el = document.createElement('div');
+                el.id = "marker10";
+                // el.id = "marker-" + i;
+                el.className = 'marker';
+                // if (marker.properties.icon == 'hotel') {
+                //     el.className = 'marker_hotel';
+                // } else if (marker.properties.icon == 'site') {
+                //     el.className = 'marker_site';
+                // } else if (marker.properties.icon == 'drink') {
+                //     el.className = 'marker_snack';
+                // } else if (marker.properties.icon == 'hotel') {
+                //     el.className = 'marker_hotel';
+                // } else if (marker.properties.icon == 'hotel') {
+                //     el.className = 'marker';
+                // } else {
+                //     el.className = 'marker';
+                // }
+
+                // Add markers to the map at all points
+                new mapboxgl.Marker(el, {
+                    offset: [0, -18],
+                })
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+
+                el.addEventListener('click', function (e) {
+                    // // 1. Fly to the point
+                    // flyToStore(marker);
+
+                    // // 2. Close all other popups and display popup for clicked store
+                    // createPopUp(marker);
+
+                    // // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                    // var activeItem = document.getElementsByClassName('active');
+
+                    // e.stopPropagation();
+                    // if (activeItem[0]) {
+                    //     activeItem[0].classList.remove('active');
+                    // }
+
+                    // var listing = document.getElementById('listing-' + i);
+                    // listing.classList.add('active');
+                });
+            });
+            map.setLayerZoomRange('marker10', 2, 5);
+        });
+    </script>
+</body>
+
+</html>
