@@ -1,3 +1,4 @@
+<!-- 官方图标，不叠加 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,9 +6,9 @@
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-    <script src='js/csv2geojson.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='csv2geojson.js'></script>
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -21,14 +22,14 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuc3dpY2siLCJhIjoiY2l1dTUzcmgxMDJ0djJ0b2VhY
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v8', //stylesheet location
-    center: [ -89.89709901792442, 41.29146740952274], // starting position
-    zoom: 3 // starting zoom
+    center: [121.50454, 31.306], // starting position
+    zoom: 2 // starting zoom
 });
 
 $(document).ready(function() {
     $.ajax({
         type: "GET",
-        url: './js/airports.csv',
+        url: './user.csv',
         dataType: "text",
         success: function(csvData) {makeGeoJSON(csvData);}
      });

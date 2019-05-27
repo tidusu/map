@@ -1,0 +1,128 @@
+body {
+    color: #404040;
+    font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+div {
+    margin: 0;
+    padding: 5;
+    font-size: 12px;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.pad2 {
+    padding: 20px;
+}
+
+.map {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+h1 {
+    font-size: 22px;
+    margin: 0;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 10px 2px;
+}
+
+h3 {
+    font-size: 14px;
+}
+
+h4 {
+    font-size: 12px;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+a:hover {
+    color: #101010;
+}
+
+.heading {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    min-height: 60px;
+    line-height: 20px;
+    padding: 10px 10px 10px 10px;
+    background-color: #00853e;
+    color: #fff;
+}
+
+.marker {
+    border: none;
+    cursor: pointer;
+    height: 36px;
+    width: 36px;
+    background-image: url(citymark.png);
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.marker2 {
+    border: none;
+    cursor: pointer;
+    height: 51px;
+    width: 63px;
+    background-image: url(citymark2.png);
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0);
+}
+.clearfix {
+    display: block;
+}
+
+.clearfix:after {
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* Marker tweaks */
+.mapboxgl-popup {
+    padding-bottom: 10px;
+}
+
+.mapboxgl-popup-close-button {
+    display: none;
+}
+
+.mapboxgl-popup-content {
+    /* font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif; */
+    padding: 0;
+    background: #ffffff00;
+    color: rgba(0, 0, 0, 0);
+    border-radius: 20px;
+    width: auto;
+}
+
+.mapboxgl-popup-content h3 {
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    display: block;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-top: -15px;
+}
+

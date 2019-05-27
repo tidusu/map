@@ -39,6 +39,9 @@
             background-size: cover;
             background-color: rgba(0, 0, 0, 0);
         }
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
     </style>
 </head>
 
@@ -58,26 +61,26 @@
 
         var zoom = map.getZoom();
 
-        map.on('load', function () {
-            map.loadImage("https://i.imgur.com/MK4NUzI.png", function (error, image) { //this is where we load the image file
-                if (error) throw error;
-                map.addImage("custom-marker", image); //this is where we name the image file we are loading
-                map.addLayer({
-                    'id': "markers", //this is the name of the layer, it is what we will reference below
-                    'type': "symbol",
-                    'source': { //now we are adding the source to the layer more directly and cleanly
-                        type: "geojson",
-                        data: '../allday.json' // CHANGE THIS TO REFLECT WHERE YOUR DATA IS COMING FROM
-                    },
-                    'layout': {
-                        "icon-image": "custom-marker", // the name of image file we used above
-                        "icon-allow-overlap": false,
-                        "icon-size": 1 //this is a multiplier applied to the standard size. So if you want it half the size put ".5"
-                    }
-                })
-            })
-        })
-
+        // 测试
+        // map.on('load', function () {
+        //     map.loadImage("http://pic.ifootbook.com/dakaphoto/citymark.png", function (error, image) { //this is where we load the image file
+        //         if (error) throw error;
+        //         map.addImage("custom-marker", image); //this is where we name the image file we are loading
+        //         map.addLayer({
+        //             'id': "markers", //this is the name of the layer, it is what we will reference below
+        //             'type': "symbol",
+        //             'source': { //now we are adding the source to the layer more directly and cleanly
+        //                 type: "geojson",
+        //                 data: '../allday.json' // CHANGE THIS TO REFLECT WHERE YOUR DATA IS COMING FROM
+        //             },
+        //             'layout': {
+        //                 "icon-image": "custom-marker", // the name of image file we used above
+        //                 "icon-allow-overlap": false,
+        //                 "icon-size": 1 //this is a multiplier applied to the standard size. So if you want it half the size put ".5"
+        //             }
+        //         })
+        //     })
+        // })
 
         map.on('load', function () {
             map.addLayer({
