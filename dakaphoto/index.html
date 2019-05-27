@@ -13,8 +13,8 @@
     <style>
         body { margin:0; padding:0; }
         h3 {
-    font-size: 14px;
-}
+            font-size: 14px;
+        }
         #map { position:absolute; top:0; bottom:0; width:100%; }
         .mapboxgl-popup { max-width: 200px; }
     </style>
@@ -80,7 +80,7 @@ function makeGeoJSON(csvData) {
                 "data": data
             });
 
-            map.loadImage("http://pic.ifootbook.com/dakaphoto/citymark.png", function (error, image) { //this is where we load the image file
+            map.loadImage("https://headimg.ifootbook.com/dakaphoto/citymark.png", function (error, image) { //this is where we load the image file
                 if (error) throw error;
                 map.addImage("custom-marker", image); //this is where we name the image file we are loading
                 map.addLayer({
@@ -102,6 +102,7 @@ function makeGeoJSON(csvData) {
                 var coordinates = e.features[0].geometry.coordinates.slice();
                 var description = e.features[0].properties.tags;
                 tags = '<h3>' + description + '</h3>';
+                img = '<img></img>';
  
                 // Ensure that if the map is zoomed out such that multiple
                 // copies of the feature are visible, the popup appears

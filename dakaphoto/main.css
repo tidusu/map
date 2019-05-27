@@ -126,3 +126,9 @@ a:hover {
     margin-top: -15px;
 }
 
+.mapboxgl-popup-content img {
+    height: 36px;
+    width: 36px;
+    background-image: url(test.jpg);
+    background-size: cover;
+}
