@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
-    <link href='main.css' rel='stylesheet' />
+    <link href='map_tag.css' rel='stylesheet' />
     <script src='csv2geojson.js'></script>
     <style>
         body { margin:0; padding:0; }
@@ -22,6 +22,7 @@
 <body>
 
 <div id='map'></div>
+<script type="text/javascript" src="change.js"></script>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuc3dpY2siLCJhIjoiY2l1dTUzcmgxMDJ0djJ0b2VhY2sxNXBiMyJ9.25Qs4HNEkHubd4_Awbd8Og';
 var map = new mapboxgl.Map({
@@ -46,6 +47,7 @@ function makeGeoJSON(csvData) {
         lonfield: 'longitude',
         delimiter: ','
     }, function(err, data) {
+        
         map.on('load', function () {
             map.addLayer({
                 "id": "world",
@@ -62,14 +64,14 @@ function makeGeoJSON(csvData) {
                     }
                 },
                 "paint": {
-                    'fill-opacity': 0.7
+                    'fill-opacity': 0.75
                 },
             });
             map.setPaintProperty('world', 'fill-color', [
                 "interpolate",
                 ["exponential", 0.5],
                 ["zoom"],
-                4, "#541388",
+                4, "#4E00C8",
                 6, "#1D7BDF",
                 8, "#00A627",
                 14, '#F1B300',
@@ -78,32 +80,33 @@ function makeGeoJSON(csvData) {
             map.addSource("places", {
                 "type": "geojson",
                 "data": data
-            });
+            }); 
 
             map.loadImage("https://headimg.ifootbook.com/dakaphoto/citymark.png", function (error, image) { //this is where we load the image file
                 if (error) throw error;
-                map.addImage("custom-marker", image); //this is where we name the image file we are loading
+                map.addImage("citymark", image); //this is where we name the image file we are loading
                 map.addLayer({
-                    'id': "markers", //this is the name of the layer, it is what we will reference below
+                    'id': "marker1", //this is the name of the layer, it is what we will reference below
+                    'minzoon': 2,
+                    // 'maxzoom': 12,
                     'type': "symbol",
                     'source': { //now we are adding the source to the layer more directly and cleanly
                         type: "geojson",
                         data: data // CHANGE THIS TO REFLECT WHERE YOUR DATA IS COMING FROM
                     },
                     'layout': {
-                        "icon-image": "custom-marker", // the name of image file we used above
+                        "icon-image": "citymark", // the name of image file we used above
                         "icon-allow-overlap": false,
                         "icon-size": .5 //this is a multiplier applied to the standard size. So if you want it half the size put ".5"
                     }
                 })
             }); 
 
-            map.on('click', 'markers', function (e) {
+            map.on('click', 'marker1', function (e) {
+                
                 var coordinates = e.features[0].geometry.coordinates.slice();
                 var description = e.features[0].properties.tags;
-                tags = '<h3>' + description + '</h3>';
-                img = '<img></img>';
- 
+                tags = "<a class='mapboxgl-popup-content tag'>" + description + '</a>';
                 // Ensure that if the map is zoomed out such that multiple
                 // copies of the feature are visible, the popup appears
                 // over the copy being pointed to.
@@ -116,6 +119,13 @@ function makeGeoJSON(csvData) {
                 .setHTML(tags)
                 .addTo(map);
             });
+
+            map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            }));
 
             // data.features.forEach(function (marker, i) {
             //     // Create an img element for the marker

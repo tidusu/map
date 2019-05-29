@@ -40,10 +40,12 @@ h1 {
 
 h3 {
     font-size: 14px;
+    font-weight: 700;
 }
 
 h4 {
     font-size: 12px;
+    font-weight: 700;
 }
 
 a {
@@ -108,11 +110,14 @@ a:hover {
 
 .mapboxgl-popup-content {
     /* font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif; */
-    padding: 0;
+    padding: 0px;
     background: #ffffff00;
     color: rgba(0, 0, 0, 0);
-    border-radius: 20px;
+    border-radius: 0px;
     width: auto;
+    border:none;
+    text-align:center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0);
 }
 
 .mapboxgl-popup-content h3 {
@@ -121,14 +126,42 @@ a:hover {
     margin: 0;
     display: block;
     padding: 5px 10px 5px 10px;
+    border-radius: 10px 10px 0px 0px;
+    font-weight: 700;
+    margin-top: -15px;
+    align-items: center;
+}
+
+.popupimg {
+    height: 100px;
+    width: 100px;
+    /* background-image: url(test.jpg); */
+    /* background-image: url(test.jpg) center center; */
+    background-size: cover;
+    display: inline-block;
+    border-radius: 0px 0px 10px 10px;
+    border-color:#ff000000;
+    border : none !important;
+}
+
+.popup {
+        /* font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif; */
+    padding: 0;
+    background: #ffffff00;
+    color: rgba(0, 0, 0, 0);
+    border-radius: 20px;
+    width: auto;
+}
+
+.tag {
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    display: block;
+    height: 30px;
+    padding: 5px 10px 5px 10px;
     border-radius: 10px;
     font-weight: 700;
     margin-top: -15px;
-}
-
-.mapboxgl-popup-content img {
-    height: 36px;
-    width: 36px;
-    background-image: url(test.jpg);
-    background-size: cover;
+    align-items: center;
 }
