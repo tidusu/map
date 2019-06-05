@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>mask test</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'>
+    </div>
+    <script type="text/javascript">
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v9',
+            center: [121.323, 31.424],
+            zoom: 2
+        });
+
+        map.on('load', function () {
+            map.addSource("mask", {
+                "type": "geojson",
+                "data": './user_mask.json'
+            });
+
+            map.addLayer({
+                "id": "mask",
+                "type": "fill",
+                "minzoom": 2,
+                "source": "mask",
+                "paint": {
+                    'fill-opacity': 0.8,
+                    "fill-color": [
+                        "interpolate",
+                        ["exponential", 0.5],
+                        ["zoom"],
+                        4, "#4E00C8",
+                        6, "#1D7BDF",
+                        8, "#00A627",
+                        14, '#F1B300',
+                        20, '#FFDB2E'
+                    ]
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>
