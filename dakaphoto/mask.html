@@ -6,6 +6,7 @@
     <title>mask test</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/Turf.js/5.1.6/turf.min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
     <style>
@@ -26,26 +27,118 @@
 <body>
     <div id='map'>
     </div>
+    <script src='csv2geojson.js'></script>
     <script type="text/javascript">
         mapboxgl.accessToken =
-            'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+            'pk.eyJ1IjoiaWZvb2J0b29rIiwiYSI6ImNqdnczZ3plODF5dDE0YW5uNGhpNWcyanAifQ.qgmnnkw85aN0xuI2HVcgHw';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v9',
+            // style: 'mapbox://styles/tidusu/cirrv8ix00006gcnlbauc71c8',
+            // style: 'https://maputnik.github.io/osm-liberty/style.json',
             center: [121.323, 31.424],
             zoom: 2
         });
 
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: './user.csv',
+                dataType: "text",
+                success: function (csvData) {
+                    makeGeoJSON(csvData);
+                }
+            });
+        });
+
+
+        function makeGeoJSON(csvData) {
+            csv2geojson.csv2geojson(csvData, {
+                latfield: 'latitude',
+                lonfield: 'longitude',
+                delimiter: ','
+            }, function (err, data) {
+
+
+                map.on('load', function () {
+                    map.addSource("places", {
+                        "type": "geojson",
+                        "data": data
+                    });
+
+                    map.loadImage("https://headimg.ifootbook.com/dakaphoto/citymark.png", function (
+                        error, image) { //this is where we load the image file
+                        if (error) throw error;
+                        map.addImage("citymark",
+                            image); //this is where we name the image file we are loading
+                        map.addLayer({
+                            'id': "marker1", //this is the name of the layer, it is what we will reference below
+                            'minzoon': 2,
+                            // 'maxzoom': 12,
+                            'type': "symbol",
+                            'source': { //now we are adding the source to the layer more directly and cleanly
+                                type: "geojson",
+                                data: data // CHANGE THIS TO REFLECT WHERE YOUR DATA IS COMING FROM
+                            },
+                            'layout': {
+                                "icon-image": "citymark", // the name of image file we used above
+                                "icon-allow-overlap": false,
+                                "icon-size": .5 //this is a multiplier applied to the standard size. So if you want it half the size put ".5"
+                            }
+                        })
+                    });
+
+                    map.on('click', 'marker1', function (e) {
+
+                        var coordinates = e.features[0].geometry.coordinates.slice();
+                        var description = e.features[0].properties.tags;
+                        tags = "<a class='mapboxgl-popup-content tag'>" + description + '</a>';
+
+                        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                        }
+
+                        new mapboxgl.Popup()
+                            .setLngLat(coordinates)
+                            .setHTML(tags)
+                            .addTo(map);
+                    });
+
+                    map.addControl(new mapboxgl.GeolocateControl({
+                        positionOptions: {
+                            enableHighAccuracy: true
+                        },
+                        trackUserLocation: true
+                    }));
+
+                    // 自动缩放级
+                    map.on('sourcedata', function (e) {
+                        if (e.sourceId !== 'marker1' || !e.isSourceLoaded) return
+                        var f = map.querySourceFeatures('marker1')
+                        if (f.length === 0) return
+                        var bbox = turf.bbox({
+                            type: 'FeatureCollection',
+                            features: f
+                        });
+                        map.fitBounds(bbox, {
+                            padding: 10
+                        });
+                    })
+                });
+            });
+        }
+
         map.on('load', function () {
             map.addSource("mask", {
                 "type": "geojson",
-                "data": './user_mask.json'
+                // "data": './user_mask.json'
+                "data": 'https://tidusu.github.io/map/dakaphoto/user_mask.json'
             });
 
             map.addLayer({
                 "id": "mask",
                 "type": "fill",
-                "minzoom": 2,
+                // "minzoom": 2,
                 "source": "mask",
                 "paint": {
                     'fill-opacity': 0.8,
@@ -61,6 +154,8 @@
                     ]
                 },
             });
+
+            
         });
     </script>
 </body>
