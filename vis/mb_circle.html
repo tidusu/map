@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Style circles with a data-driven property</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+    <script src='js/csv2geojson.js'></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoidGlkdXN1IiwiYSI6ImNqdHNndGM2bjB4Y3c0MnIwbHg4Y20xNmgifQ.KiFS1iqSrCMvik2S_AC7WA';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            // style: 'mapbox://styles/mapbox/dark-v10',
+            // style: 'mapbox://styles/tidusu/cirrv8ix00006gcnlbauc71c8',
+            style: 'mapbox://styles/tidusu/cjxldiy0w0sb01dtbtqalrnti?optimize=true',
+            zoom: 5,
+            center: [121.447303, 31.753574]
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: './data/vis_user_map.csv',
+                dataType: "text",
+                success: function (csvData) { makeGeoJSON(csvData); }
+            });
+        });
+
+        function makeGeoJSON(csvData) {
+            csv2geojson.csv2geojson(csvData, {
+                latfield: 'lat',
+                lonfield: 'lng',
+                delimiter: ','
+            }, function (err, data) {
+                // alert(JSON.stringify(data));
+                // console.log(data);
+
+                map.on('load', function () {
+                    map.addLayer({
+                        'id': 'babel',
+                        'type': 'circle',
+                        'source': {
+                            type: "geojson",
+                            data: data
+                        },
+                        'paint': {
+                            // 'circle-radius': ["+",50,20],
+                            // 'circle-radius': ["to-number",["get", "n"]],
+                            'circle-radius': ["+",5,["/",["to-number",["get", "n"]],5]],
+                            'circle-color': '#50E3C2'
+                        }
+                    });
+                });
+                
+
+                // 自动缩放级
+                map.on('sourcedata', function (e) {
+                    if (e.sourceId !== 'marker1' || !e.isSourceLoaded) return
+                    var f = map.querySourceFeatures('marker1')
+                    if (f.length === 0) return
+                    var bbox = turf.bbox({
+                        type: 'FeatureCollection',
+                        features: f
+                    });
+                    map.fitBounds(bbox, {
+                        padding: 10,
+                        maxZoom: 15
+                    });
+                })
+            });
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

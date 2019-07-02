@@ -1,3 +1,4 @@
+// 修改mapbox语言
 function change_language(lan) {
     // var language1 = 'en';
     // var language2 = 'ja';

@@ -43,7 +43,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: './user.csv',
+                url: './user_small.csv',
                 dataType: "text",
                 success: function (csvData) {
                     makeGeoJSON(csvData);
@@ -121,7 +121,8 @@
                             features: f
                         });
                         map.fitBounds(bbox, {
-                            padding: 10
+                            padding: 10,
+                            maxZoom: 15
                         });
                     })
                 });
