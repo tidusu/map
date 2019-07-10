@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>在线尝试 Bootstrap 实例</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -33,6 +34,8 @@
             mapboxgl.accessToken = 'pk.eyJ1IjoiaWZvb2J0b29rIiwiYSI6ImNqdnczZ3plODF5dDE0YW5uNGhpNWcyanAifQ.qgmnnkw85aN0xuI2HVcgHw';
         var map = new mapboxgl.Map({
             container: 'map',
+            tileSize: 512,
+            trackResize: true,
             // style: 'mapbox://styles/mapbox/dark-v10',
             // style: 'mapbox://styles/ifoobtook/cjxwnx5bi0uf11cn8bfgd8v03?optimize=true',
             style: 'mapbox://styles/ifoobtook/cjxwobw6r4snt1cqyjlq9mp4t?optimize=true',
