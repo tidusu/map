@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Heatmap of 120k Flickr@Shanghai</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- <script src='../mapbox.js'></script> -->
+    <script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
+    <!-- <link href='../mapbox.css' rel='stylesheet' /> -->
+    <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="js/leaflet-heat.js"></script>
+    <script src="data/points.js"></script>
+    <div id='map'></div>
+    <script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoidGlkdXN1IiwiYSI6ImNqdHNndGM2bjB4Y3c0MnIwbHg4Y20xNmgifQ.KiFS1iqSrCMvik2S_AC7WA';
+    var map = L.mapbox.map('map', 'mapbox.light'),
+        // The maxZoom states which zoom the markers are fully opaque at -
+        // in this case, there are few markers far apart, so we set it low.
+        heat = L.heatLayer([], {
+            maxZoom: 12
+        }).addTo(map);
+
+    map.setView([31.23,121.47], 8);
+    // We're just using a featureLayer to pull marker data from Mapbox -
+    // this is not added to the map.
+    Points = Points.map(function(p) {
+        return [p[0], p[1]];
+    });
+
+    var heat = L.heatLayer(Points,{minOpacity:0.5},{radius: 5}).addTo(map);
+
+    // var layer = L.mapbox.featureLayer()
+    //     .addTo(map);
+
+    // layer.loadURL('features.geojson');
+
+    // layer.on('ready', function() {
+    //     // Zoom the map to the bounds of the markers.
+    //     map.fitBounds(layer.getBounds());
+    //     // Add each marker point to the heatmap.
+    //     layer.eachLayer(function(l) {
+    //         heat.addLatLng(l.getLatLng());
+    //     });
+    // });
+    </script>
+</body>
+
+</html>

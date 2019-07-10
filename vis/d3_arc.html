@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body {
+    background: #000000;
+  }
+
+  .stroke {
+    fill: none;
+    stroke: rgb(190, 0, 0);
+    stroke-width: 1px;
+    opacity: 0;
+  }
+
+  .fill {
+    fill: rgb(0, 0, 0);
+    opacity: 0.1;
+  }
+
+  .graticule {
+    fill: none;
+    stroke: rgba(59, 59, 59, 0);
+    stroke-width: .5px;
+    stroke-opacity: .5;
+  }
+
+  .land {
+    fill: rgb(190, 0, 0);
+    opacity: 0.4;
+  }
+
+  .boundary {
+    fill: none;
+    stroke: rgb(0, 0, 0);
+    stroke-width: .2px;
+  }
+
+  .points circle {
+    fill: rgb(255, 208, 0);
+    stroke: rgb(255, 208, 0);
+    stroke-width: 0px;
+  }
+
+  .points text {
+    font: 9px sans-serif;
+    fill: white;
+    text-anchor: middle;
+    text-shadow: 0 1px 0 #000000, 0 -1px 0 #000000, 1px 0 0 #000000, -1px 0 0 #000000;
+  }
+
+  .route {
+    fill: none;
+    stroke: rgb(255, 208, 0);
+    stroke-width: 1px;
+    opacity: 0.3;
+  }
+</style>
+
+<body>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="//d3js.org/d3.geo.projection.v0.min.js"></script>
+  <script src="//d3js.org/topojson.v1.min.js"></script>
+  <script>
+
+    var width = 960,
+      height = 570;
+    active = d3.select(null);
+
+    var places = {
+      user1: [120.7821623, 29.2473354],
+      user3: [101.7079526, 25.3648883],
+      user4: [86.9612784, 35.3111795],
+      user5: [104.5791027, 63.789276],
+      user6: [28.2900402, 29.3955684],
+      user7: [75.9267589, 16.3138041],
+      user8: [109.5998271, 26.7919443],
+      user9: [105.9466562, 28.6370232],
+      user10: [105.408766, 29.9271681]
+    };
+
+    var route = {
+      type: "LineString",
+      coordinates: [
+        places.user1,
+        places.user3,
+        places.user4,
+        places.user5,
+        places.user6,
+        places.user7,
+        places.user8,
+        places.user9,
+        places.user10
+      ]
+    };
+
+    var projection = d3.geo.mercator()
+      .translate([width / 2, height / 2])
+      .scale((width - 1) / 2 / Math.PI);
+
+    var path = d3.geo.path()
+      .projection(projection);
+
+    var graticule = d3.geo.graticule();
+
+
+    var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    var zoom = d3.behavior.zoom()
+      .translate([0, 0])
+      .scale(1)
+      .scaleExtent([1, 8])
+      .on("zoom", zoomed);
+
+    svg
+      .call(zoom) // delete this line to disable free zooming
+      .call(zoom.event);
+
+    svg.append("defs").append("path")
+      .datum({ type: "Sphere" })
+      .attr("id", "sphere")
+      .attr("d", path);
+
+    svg.append("use")
+      .attr("class", "stroke")
+      .attr("xlink:href", "#sphere");
+
+    svg.append("use")
+      .attr("class", "fill")
+      .attr("xlink:href", "#sphere");
+
+    svg.append("path")
+      .datum(graticule)
+      .attr("class", "graticule")
+      .attr("d", path);
+
+    svg.append("path")
+      .datum(route)
+      .attr("class", "route")
+      .attr("d", path);
+
+    var point = svg.append("g")
+      .attr("class", "points")
+      .selectAll("g")
+      .data(d3.entries(places))
+      .enter().append("g")
+      .attr("transform", function (d) { return "translate(" + projection(d.value) + ")"; });
+
+    point.append("circle")
+      .attr("r", 1.5);
+
+    // point.append("text")
+    //     .attr("y", 10)
+    //     .attr("dy", ".71em")
+    //     .text(function(d) { return d.key; });
+
+    d3.json("data/world-50m.json", function (error, world) {
+      if (error) throw error;
+
+      svg.insert("path", ".graticule")
+        .datum(topojson.feature(world, world.objects.land))
+        .attr("class", "land")
+        .attr("d", path);
+
+      svg.insert("path", ".graticule")
+        .datum(topojson.mesh(world, world.objects.countries, function (a, b) { return a !== b; }))
+        .attr("class", "boundary")
+        .attr("d", path);
+    });
+
+    function reset() {
+      active.classed("active", false);
+      active = d3.select(null);
+
+      svg.transition()
+        .duration(750)
+        .call(zoom.translate([0, 0]).scale(1).event);
+    }
+
+    function zoomed() {
+      svg.style("stroke-width", 1.5 / d3.event.scale + "px");
+      svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+    function clicked(d) {
+      if (active.node() === this) return reset();
+      active.classed("active", false);
+      active = d3.select(this).classed("active", true);
+
+      var bounds = path.bounds(d),
+        dx = bounds[1][0] - bounds[0][0],
+        dy = bounds[1][1] - bounds[0][1],
+        x = (bounds[0][0] + bounds[1][0]) / 2,
+        y = (bounds[0][1] + bounds[1][1]) / 2,
+        scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+        translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+      svg.transition()
+        .duration(750)
+        .call(zoom.translate(translate).scale(scale).event);
+    }
+
+    d3.select(self.frameElement).style("height", height + "px");
+  </script>

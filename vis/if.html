@@ -1,0 +1,496 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/album/img/icon.jpg" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, height=device-height,initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>上海</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <link rel="stylesheet" href="/album/css/mui/mui.min.css?version=2019062802">
+    <link rel="stylesheet" href="/album/css/shareInfo_zushu.css?version=2019062802">
+    <link rel="stylesheet" href="/album/css/jquery.xctips.css?version=2019062802">
+    <script type="text/javascript"
+        src="http://test.ifootbook.com:80/album/js/jquery.xctips.js?version=2019062802"></script>
+    <script type="text/javascript" src="/album/js/jquery.min.js?version=2019062802"></script>
+</head>
+
+<body>
+    <!--加载 -->
+    <div id="bigdib" class="bigdib">
+        <div onclick="updateApp();" id="download_bar" class="download_bar ios9">
+            <div class="title">
+                <img class="logo" src="/album/img/logo.png?version=2019062802" alt="足书">
+            </div>
+            <p class="pp">
+                <p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>打卡相册</b> ‧ 记录质感生活
+                </p>
+            </p>
+            <a href="javascript:;" class="download_btn_new"> 马上制作 </a>
+        </div>
+        <div id="download_bar2" class="download_bar22">&nbsp;</div>
+        <div id="mapDiv" class="mapdiv">
+            <img onclick="bigMap();" class="musicImg2" src="/album/img/changeBig.png" style="top: 55px;"> <br>
+            <img id="imgLine" class="musicImg2" onclick="addLine('/album');"
+                src="/album/img/line.png?version=2019062802" style="top: 105px;">
+            <div id="map" class="mapcss"></div>
+            <div class="shareUserdiv">
+                <div id="hearImg" style="margin-left: 25px; width: 30%">
+                    <img class="hearImgI"
+                        src="https://testimg.ifootbook.com/album/head/wxsession/oipDp1Q5Fbv0kwnaS38VLL5zckGg?imageMogr2/thumbnail/!200x200r/gravity/center/crop/200x200/">
+                </div>
+                <div class="userNameDiv">
+                    <span class="zuyou"> 弄给您你民工 </span>
+                    <div class="dataDiv">&nbsp;</div>
+                    <span class="data"> 2019年06月14日 <span class="readNum">阅读
+                            78</span>
+                    </span>
+                </div>
+            </div>
+            <div id="imgDivTitle" style="width: 80%; margin-top: 25px; margin-left: 27.665px;">
+                <div class="zushu_title">上海</div>
+            </div>
+            <div id="DescDiv" style="width: 358.67px; margin-top: 25px; margin-left: 27.665px;">
+                <p class="DescDivp">上海</p>
+            </div>
+            <div class="mui-content" style="margin-top: 3%; overflow: hidden;">
+                <div class="mui-content-padded">
+                    <div class="imgst22">
+                        <span id="span1" class="muispan">1</span> <img class="imgst" id="bigImg"
+                            src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509418366299.png?imageView2/1/w/1000/h/750"
+                            data-preview-src="" data-preview-group="1" num="Divtitle1" latlng="" data-content="上海"
+                            data-desc="崇山峻岭出品">
+                    </div>
+                    <div class="imgst22">
+                        <span id="span2" class="muispan">2</span> <img class="imgst" id="bigImg"
+                            src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509419481216.png?imageView2/1/w/750/h/1000"
+                            data-preview-src="" data-preview-group="1" num="Divtitle2" latlng="" data-content="上海"
+                            data-desc="">
+                    </div>
+                    <div class="imgst22">
+                        <span id="span3" class="muispan">3</span> <img class="imgst" id="bigImg"
+                            src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509420727114.png?imageView2/1/w/1000/h/750"
+                            data-preview-src="" data-preview-group="1" num="Divtitle3" latlng="" data-content="上海"
+                            data-desc="">
+                    </div>
+                    <div class="imgst22">
+                        <span id="span4" class="muispan">4</span> <img class="imgst" id="bigImg"
+                            src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509421985056.png?imageView2/1/w/1000/h/750"
+                            data-preview-src="" data-preview-group="1" num="Divtitle4" latlng="" data-content="上海"
+                            data-desc="">
+                    </div>
+                    <div class="imgst22">
+                        <span id="span5" class="muispan">5</span> <img class="imgst" id="bigImg"
+                            src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509423096143.png?imageView2/1/w/750/h/1000"
+                            data-preview-src="" data-preview-group="1" num="Divtitle5" latlng="" data-content="上海"
+                            data-desc="">
+                    </div>
+                    <div class="imgst22">
+                        <span id="span6" class="muispan">6</span> <img class="imgst" id="bigImg"
+                            src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509424144000.png?imageView2/1/w/750/h/1000"
+                            data-preview-src="" data-preview-group="1" num="Divtitle6" latlng="" data-content="上海"
+                            data-desc="">
+                    </div>
+                </div>
+            </div>
+            <div id="lastH5" class="lastH5">
+                <div id="moreDivImg">
+                    <div class="bigImgDiv">
+                        <div class="mapImgdiv">
+                            <img class="moreDivImgs"
+                                src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509418366299.png?imageView2/1/w/1000/h/750">
+                        </div>
+                        <div>
+                            <p class="moreDivp2">上海</p>
+                            <p class="moreDivp">
+                                崇山峻岭出品
+                            </p>
+                        </div>
+                        <div class="baifenbai">
+                            <img class="mapImg"
+                                src="https://maps.google.cn/maps/api/staticmap?size=325x325&zoom=15&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C31.061412,121.506281">
+                        </div>
+                    </div>
+                    <div class="bigImgDiv">
+                        <div class="mapImgdiv">
+                            <img class="moreDivImgs"
+                                src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509419481216.png?imageView2/1/w/750/h/1000">
+                        </div>
+                        <div>
+                            <p class="moreDivp2">上海</p>
+                            <p class="moreDivp">
+                            </p>
+                        </div>
+                        <div class="baifenbai">
+                            <img class="mapImg"
+                                src="https://maps.google.cn/maps/api/staticmap?size=325x325&zoom=15&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C31.304216,121.513608">
+                        </div>
+                    </div>
+                    <div class="bigImgDiv">
+                        <div class="mapImgdiv">
+                            <img class="moreDivImgs"
+                                src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509420727114.png?imageView2/1/w/1000/h/750">
+                        </div>
+                        <div>
+                            <p class="moreDivp2">上海</p>
+                            <p class="moreDivp">
+                            </p>
+                        </div>
+                        <div class="baifenbai">
+                            <img class="mapImg"
+                                src="https://maps.google.cn/maps/api/staticmap?size=325x325&zoom=15&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C31.062288,121.506205">
+                        </div>
+                    </div>
+                    <div class="bigImgDiv">
+                        <div class="mapImgdiv">
+                            <img class="moreDivImgs"
+                                src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509421985056.png?imageView2/1/w/1000/h/750">
+                        </div>
+                        <div>
+                            <p class="moreDivp2">上海</p>
+                            <p class="moreDivp">
+                            </p>
+                        </div>
+                        <div class="baifenbai">
+                            <img class="mapImg"
+                                src="https://maps.google.cn/maps/api/staticmap?size=325x325&zoom=15&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C31.061968,121.506228">
+                        </div>
+                    </div>
+                    <div class="bigImgDiv">
+                        <div class="mapImgdiv">
+                            <img class="moreDivImgs"
+                                src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509423096143.png?imageView2/1/w/750/h/1000">
+                        </div>
+                        <div>
+                            <p class="moreDivp2">上海</p>
+                            <p class="moreDivp">
+                            </p>
+                        </div>
+                        <div class="baifenbai">
+                            <img class="mapImg"
+                                src="https://maps.google.cn/maps/api/staticmap?size=325x325&zoom=15&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C31.304216,121.513608">
+                        </div>
+                    </div>
+                    <div class="bigImgDiv">
+                        <div class="mapImgdiv">
+                            <img class="moreDivImgs"
+                                src="https://testimg.ifootbook.com/apple/daKaPhoto/image/c5c4b253ee2749e98cb6aa87f2c27a30/1560509424144000.png?imageView2/1/w/750/h/1000">
+                        </div>
+                        <div>
+                            <p class="moreDivp2">上海</p>
+                            <p class="moreDivp">
+                            </p>
+                        </div>
+                        <div class="baifenbai">
+                            <img class="mapImg"
+                                src="https://maps.google.cn/maps/api/staticmap?size=325x325&zoom=15&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C31.304098,121.513525">
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    ul {
+                        list-style: none;
+                        padding: 0;
+                    }
+                </style>
+                <div class="lastDivpic">
+                    <img class="baifenbai" onclick="updateApp();" src="/album/img/bar_bottom.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="addOrReduceDiv"
+        style="z-index: 100; background: white; position: fixed; bottom: 50px; left: 0; right: 0; height: 0px;">
+    </div>
+    <input id="windowHeight" type="hidden">
+    <script src="/album/js/shareInfo_zushu.js?version=2019062802"></script>
+    <script src="/album/js/mui/mui.min.js?version=2019062802"></script>
+    <script src="/album/js/mui/mui.zoom.js?version=2019062802"></script>
+    <script src="/album/js/mui/mui.previewimage.js?version=2019062802"></script>
+    <script async defer
+        src="http://ditu.google.cn/maps/api/js?key=AIzaSyAP1xCruJv76--JqVvsWbJk3IlBpCfd-do&callback=initMap">
+        </script>
+    <script>
+        var shareId = '6f132c77fc524455a6b7771895b7625a';
+        var flightPath;
+        var map;
+        var num = 1;
+        var num2 = 0;
+        var num3 = 1;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                mapTypeId: google.maps.MapTypeId.HYBRID,
+                fullscreenControl: false,
+                streetViewControl: false,
+                mapTypeControl: true,
+                //            zoomControl: false,
+                styles: [
+                    {
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#f5f5f5"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.icon",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#616161"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#f5f5f5"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#D6D6D6"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.land_parcel",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#bdbdbd"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "landscape.natural",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#f2f2f2"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "landscape.natural.terrain",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#ebefe8"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#eeeeee"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#757575"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.park",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#E2EDDA"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.park",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#9e9e9e"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#ffffff"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.arterial",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#a8a8a8"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#dadada"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            },
+                            {
+                                "weight": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#a0a0a0"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.local",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#a8a8a8"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit.line",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#e5e5e5"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit.station",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#eeeeee"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#A7DAEA"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#7fbdc6"
+                            }
+                        ]
+                    }
+                ]
+            });
+            var dian = [{ position: new google.maps.LatLng(31.061412, 121.506281), type: 'info' }, { position: new google.maps.LatLng(31.304216, 121.513608), type: 'info' }, { position: new google.maps.LatLng(31.062288, 121.506205), type: 'info' }, { position: new google.maps.LatLng(31.061968, 121.506228), type: 'info' }, { position: new google.maps.LatLng(31.304098, 121.513525), type: 'info' }];
+            var dian2 = [{ lat: 31.061412, lng: 121.506281 }, { lat: 31.304216, lng: 121.513608 }, { lat: 31.062288, lng: 121.506205 }, { lat: 31.061968, lng: 121.506228 }, { lat: 31.304098, lng: 121.513525 }];
+            var lat = [{ lat: 31.061412, lng: 121.506281 }, { lat: 31.304216, lng: 121.513608 }, { lat: 31.062288, lng: 121.506205 }, { lat: 31.061968, lng: 121.506228 }, { lat: 31.304098, lng: 121.513525 }];
+            var lng = [{ lat: 31.061412, lng: 121.506281 }, { lat: 31.304216, lng: 121.513608 }, { lat: 31.062288, lng: 121.506205 }, { lat: 31.061968, lng: 121.506228 }, { lat: 31.304098, lng: 121.513525 }];
+            var features = dian;
+            num3 = lat.length;
+            var numpic = [1, 2, 3, 4, 6];
+            //标记点  设置标记图标
+            features.forEach(function (feature) {
+                var marker = new google.maps.Marker({
+                    position: feature.position,
+                    //                animation: google.maps.Animation.DROP,
+                    map: map,
+                    draggable: false,//图标不可拖动
+                    icon: {
+                        url: '/album/img/num/num' + numpic[num2] + '.png',
+                        size: new google.maps.Size(40, 45),
+                        scaledSize: new google.maps.Size(40, 45),
+                        anchor: new google.maps.Point(20, 39),
+                        labelOrigin: new google.maps.Point(20, 20)
+                    },
+                });
+                num2++;
+                //标记点击事件
+                marker.addListener('click', function () {
+                    var test = document.getElementById("ddddd");
+                    var imgs = document.querySelectorAll("#bigImg");
+                    var src;
+                    var posi = marker.position;
+                    var str = JSON.stringify(posi);
+                    var obj = eval('(' + str + ')');
+                    var latstr = obj.lat;
+                    for (var i = 0, len = imgs.length; i < len; i++) {
+                        var latlng = imgs[i].getAttribute('latlng');
+                        if (latstr == latlng) {
+                            src = imgs[i].getAttribute('src');
+                        }
+                    }
+                    var imgLine = document.getElementById("imgyulan");
+                    imgLine.src = src;
+                    //                test.style.cssText = "display:block";
+                });
+            });
+            //计算中心点和自动锁定缩放级
+            var i = lat.length, bounds = new google.maps.LatLngBounds();
+            while (i--) {
+                bounds.extend(new google.maps.LatLng(lat[i].lat, lng[i].lng));
+            }
+            map.fitBounds(bounds);
+            var flightPathCoordinates = dian2;
+            //设置线的颜色 宽度 等样式
+            flightPath = new google.maps.Polyline({
+                path: flightPathCoordinates,
+                strokeColor: 'red',
+                strokeOpacity: 1.0,
+                strokeWeight: 1,
+            });
+            flightPath.setMap(map);
+            addLine('/album');//连线
+        }
+    </script>
+</body>
+
+</html>
