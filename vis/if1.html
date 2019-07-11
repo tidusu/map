@@ -139,7 +139,7 @@
             position: relative;
             height: auto;
             font-size: 0.6rem;
-            font-weight: 300;
+            font-weight: 200;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             text-align: center;
             text-transform: capitalize;
@@ -156,9 +156,9 @@
             /* margin-left: 1rem; */
             width: 8rem;
             height: auto;
-            font-weight: 400;
+            font-weight: 300;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
-            line-height: 0.74667rem;
+            line-height: 0.5rem;
             margin: 0 0 0 1rem;
             text-align: center;
             text-transform: capitalize;
@@ -284,7 +284,7 @@
                         positions.push([Number(lng), Number(lat)])
                         var el = document.createElement('div');
                         el.className = 'marker';
-                        el.innerHTML = '<span><b>' + (i + 1) + '</b></span>';
+                        el.innerHTML = '<span><b>' + marker.properties.id + '</b></span>';
                         img_base64 = "data:image/jpg;base64," + marker.properties.base64;
                         var div_thumbnail = "<div class='thumbnail_group'><img id='cover' class='thumbnail_img' src='" + img_base64 + "' /><div class='thumnail_num'>" + i + "</div></div>";
                         div_img_content = div_img_content + div_thumbnail;
@@ -301,7 +301,6 @@
                             //     .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
                             .addTo(map);
                     }
-                    
                 });
 
                 div_img_content = div_main_title + div_img_content_0 + div_img_content + "</div>"
