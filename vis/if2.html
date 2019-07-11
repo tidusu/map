@@ -95,17 +95,7 @@
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
         }
 
-        /* .img_thumbnail {
-            width: 3.33rem;
-            height: 3.33rem;
-            position:absolute;
-            top:0;left:0;right:0;bottom:0;
-            margin:auto;
-            display:block;
-            object-fit: cover;
-        } */
-
-        .img {
+        .detail_img {
             margin-top: 1rem;
             max-width: 100%;
             height: auto;
@@ -116,7 +106,7 @@
             height: 4rem;
             border-radius: 100% 100%;
             margin-top: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             margin-left: auto;
             margin-right: auto;
             display: block;
@@ -150,10 +140,6 @@
             margin-bottom: 0.5rem;
         }
 
-        .gap {
-            height: 1rem;
-        }
-
         .info {
             font-size: 0.4rem;
             /* margin-left: 1rem; */
@@ -165,6 +151,10 @@
             margin: 0 0 0 1rem;
             text-align: center;
             text-transform: capitalize;
+        }
+
+        .gap {
+            height: 1rem;
         }
     </style>
 </head>
@@ -232,9 +222,9 @@
         function makeGeoJSON(csvData) {
             var body = "";
             var div_map = "<div><div id='map'></div></div>";
-            var div_content_0 = "<div class='content'>";
-            var div_img_content_0 = "<div class='img_content'>";
-            var div_img_detail_0 = "<div class='img_detail'>";
+            var div_thumbnail= "<div id='thumbnail'></div>";
+            var div_detail= "<div id='detail'></div>";
+            var div_gap = "<div class='gap'></div>"
 
             csv2geojson.csv2geojson(csvData, {
                 latfield: 'lat',
@@ -261,10 +251,7 @@
                         zoom: 10
                     });
                 }
-                
-                var div_main_title = "";
-                var div_img_content = "";
-                var div_img_detail = "";
+
                 var positions = [];
 
                 data.features.forEach(function (marker, i) {
@@ -281,45 +268,88 @@
                         var el = document.createElement('div');
                         el.className = 'marker';
                         el.innerHTML = '<span><b>' + marker.properties.id + '</b></span>';
-                        
-                        var div_thumbnail = "<div class='thumbnail_group'><img id='cover' class='thumbnail_img' src='" + img_base64 + "'/><div class='thumnail_num'>" + i + "</div></div>";
-                        div_img_content = div_img_content + div_thumbnail;
 
-                        var div_detail = "<div class='gap'></div><div><img id='cover' class='img' src='" + img_base64 + "' /></div><div class='title'>" + marker.properties.title + "</div><div class='info'>" + marker.properties.info + "</div><div><img class='roundmap' src='https://maps.google.cn/maps/api/staticmap?size=200x200&zoom=12&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C" + lat + "," + lng + "'/></div>"
-                        div_img_detail = div_img_detail + div_detail
                         new mapboxgl.Marker(el, {
                             offset: [0, -10],
                         })
                             .setLngLat(marker.geometry.coordinates)
-                            // .setPopup(new mapboxgl.Popup({
-                            //     offset: 25
-                            // }) // add popups
-                            //     .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
                             .addTo(map);
 
                         el.addEventListener('click', function (e) {
                             flyToMarker(marker);
                         });
-
-                        // .addEventListener('click', function (e) {
-                        //     flyToMarker(marker);
-                        // });
                     }
                 });
 
-                div_img_content = div_main_title + div_img_content_0 + div_img_content + "</div>"
-                div_img_detail = div_img_detail_0 + div_img_detail + "</div>"
-                $(document.body).append(div_img_content + div_img_detail);
+                $(document.body).append(div_main_title + div_thumbnail + div_detail + div_gap)
+                build_thumbnail(data);
+                build_detail(data);
 
-                var link = document.getElementsByClassName('thumbnail_img')
-                console.log(link)
-                
-                link.addEventListener('click', function(e) {
-                    // Update the currentFeature to the store associated with the clicked link
-                    var clickedListing = data.features[this.dataPosition];
-                    // 1. Fly to the point associated with the clicked link
-                    flyToStore(clickedListing);                   
-                });
+                // div_img_content = div_main_title + div_img_content_0 + div_img_content + "</div>"
+                // div_img_detail = div_img_detail_0 + div_img_detail + "</div>"
+                // $(document.body).append(div_img_content + div_img_detail);
+
+                function build_thumbnail(data) {
+                    for (i = 1; i < data.features.length; i++) {
+                        var currentFeature = data.features[i];
+                        var prop = currentFeature.properties;
+                        var img_base64 = "data:image/jpg;base64," + prop.base64;
+
+                        var thumbnails = document.getElementById('thumbnail');
+                        var thumbnail = thumbnails.appendChild(document.createElement('div'));
+                        thumbnail.className = 'thumbnail_group';
+                        thumbnail.id = "thumbnail-" + i;
+
+                        var img = thumbnail.appendChild(document.createElement('img'));
+                        img.src = img_base64;
+                        img.className = 'thumbnail_img';
+                        img.dataPosition = i;
+                        img.innerHTML = prop.Name;
+
+                        var num =  thumbnail.appendChild(document.createElement('div'));
+                        num.className = 'thumnail_num';
+                        num.innerHTML = "" + i;
+
+                        img.addEventListener('click', function (e) {
+                            // Update the currentFeature to the store associated with the clicked link
+                            var clickedListing = data.features[this.dataPosition];
+                            flyToMarker(clickedListing);
+                        });
+                    }
+                };
+
+                function build_detail(data) {
+                    for (i = 1; i < data.features.length; i++) {
+                        var currentFeature = data.features[i];
+                        var prop = currentFeature.properties;
+                        var lng = currentFeature.geometry.coordinates[0]
+                        var lat = currentFeature.geometry.coordinates[1]
+                        var img_base64 = "data:image/jpg;base64," + prop.base64;
+
+                        var details = document.getElementById('detail');
+                        var detail = details.appendChild(document.createElement('div'));
+                        thumbnail.className = 'img_detail';
+
+                        var gap = thumbnail.appendChild(document.createElement('div'));
+                        gap.className = 'gap';
+                        
+                        var img = thumbnail.appendChild(document.createElement('img'));
+                        img.src = img_base64;
+                        img.className = 'detail_img';
+
+                        var title = thumbnail.appendChild(document.createElement('div'));
+                        title.innerHTML = prop.title;
+                        title.className = 'title';
+                        
+                        var info = thumbnail.appendChild(document.createElement('div'));
+                        info.innerHTML = prop.info;
+                        info.className = 'info';
+
+                        var img = thumbnail.appendChild(document.createElement('img'));
+                        img.src = "https://maps.google.cn/maps/api/staticmap?size=200x200&zoom=12&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C" + lat + "," + lng;
+                        img.className = 'roundmap';
+                    }
+                }
 
                 function drawlines() {
                     console.log(positions)
