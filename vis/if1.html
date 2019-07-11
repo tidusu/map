@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>test</title>
+    <title>打卡游记</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
@@ -53,6 +53,7 @@
         }
 
         .content {
+            width: 100%;
             margin-top: 6.66667rem;
         }
 
@@ -64,17 +65,16 @@
         }
 
         .thumbnail_group {
-            width: 3.33rem;
-            height: 3.33rem;
+            width: 3.332rem;
+            height: 3.332rem;
             display: inline-block;
             padding: 0;
             margin: 0rem;
-            transform: translate(0, 0.1rem);
         }
 
         .thumbnail_img {
-            width: 3.34rem;
-            height: 3.34rem;
+            width: 3.332rem;
+            height: 3.332rem;
             /* padding: 0 6px; */
             /* float: left; */
             position: relative;
@@ -86,7 +86,7 @@
             /* Float:left; */
             /* top: 0.2rem;
             left: 0.2rem; */
-            transform: translate(1.8rem, -2.5rem);
+            transform: translate(1.68rem, -2.5rem);
             font-size: 3rem;
             font-weight: 700;
             color: #fff;
@@ -120,6 +120,7 @@
             margin-right: auto;
             display: block;
         }
+
         .main_title {
             position: absolute;
             z-index: 1000;
@@ -133,8 +134,9 @@
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             text-align: left;
             text-transform: capitalize;
-            text-shadow:#000000 0px 0px 10px;
+            text-shadow: #000000 0px 0px 10px;
         }
+
         .title {
             position: relative;
             height: auto;
@@ -213,28 +215,9 @@
             </div>
         </div>
     </div> -->
-    
+
 
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiaWZvb2J0b29rIiwiYSI6ImNqdnczZ3plODF5dDE0YW5uNGhpNWcyanAifQ.qgmnnkw85aN0xuI2HVcgHw';
-        // var map = new mapboxgl.Map({
-        //     container: 'map',
-        //     // style: 'mapbox://styles/ifoobtook/cjxwnx5bi0uf11cn8bfgd8v03?optimize=true',
-        //     style: 'mapbox://styles/ifoobtook/cjxwobw6r4snt1cqyjlq9mp4t?optimize=true',
-        //     zoom: 2,
-        //     center: [-121.44, 31.75]
-        // });
-
-
-        var boarddiv = "<div style='background:white;width:100%;height:100%;z-index:999;position:absolute;top:0;margin-top:100px;'>加载中...</div>";
-        $(window).load(function () {
-            // var body = ""
-            // var div_map = "<div><div id='map'></div></div>"
-            // var div_content_0 = "<div class='content'>"
-            // var div_img_content_0 = "<div class='img_content'>"
-            // $(document.body).append(div_map);
-        });
-
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
@@ -258,16 +241,25 @@
                 delimiter: ','
             }, function (err, data) {
                 $(document.body).append(div_map);
+                mapboxgl.accessToken = 'pk.eyJ1IjoiaWZvb2J0b29rIiwiYSI6ImNqdnczZ3plODF5dDE0YW5uNGhpNWcyanAifQ.qgmnnkw85aN0xuI2HVcgHw';
                 var map = new mapboxgl.Map({
                     container: 'map',
                     // style: 'mapbox://styles/ifoobtook/cjxwnx5bi0uf11cn8bfgd8v03?optimize=true',
                     style: 'mapbox://styles/ifoobtook/cjxwobw6r4snt1cqyjlq9mp4t?optimize=true',
                     zoom: 2,
-                    center: [-121.44, 31.75],
+                    center: [121.44, 31.75],
                     attributionControl: false,
                     logoPosition: 'bottom-right'
                 });
+
                 map.addControl(new mapboxgl.AttributionControl(), 'top-left');
+
+                function flyToMarker(currentFeature) {
+                    map.flyTo({
+                        center: currentFeature.geometry.coordinates,
+                        zoom: 10
+                    });
+                }
                 
                 var div_main_title = "";
                 var div_img_content = "";
@@ -281,18 +273,21 @@
                     if (i > 0) {
                         var lng = marker.geometry.coordinates[0]
                         var lat = marker.geometry.coordinates[1]
+                        img_base64 = "data:image/jpg;base64," + marker.properties.base64;
+
                         positions.push([Number(lng), Number(lat)])
+
                         var el = document.createElement('div');
                         el.className = 'marker';
                         el.innerHTML = '<span><b>' + marker.properties.id + '</b></span>';
-                        img_base64 = "data:image/jpg;base64," + marker.properties.base64;
-                        var div_thumbnail = "<div class='thumbnail_group'><img id='cover' class='thumbnail_img' src='" + img_base64 + "' /><div class='thumnail_num'>" + i + "</div></div>";
+                        
+                        var div_thumbnail = "<div class='thumbnail_group'><img id='cover' class='thumbnail_img' src='" + img_base64 + "'/><div class='thumnail_num'>" + i + "</div></div>";
                         div_img_content = div_img_content + div_thumbnail;
 
-                        var div_detail = "<div class='gap'></div><div><img id='cover' class='img' src='" + img_base64 + "' /></div><div class='title'>" + marker.properties.title+ "</div><div class='info'>" + marker.properties.info + "</div><div><img class='roundmap' src='https://maps.google.cn/maps/api/staticmap?size=200x200&zoom=12&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C" + lat+ "," + lng + "'/></div>"
+                        var div_detail = "<div class='gap'></div><div><img id='cover' class='img' src='" + img_base64 + "' /></div><div class='title'>" + marker.properties.title + "</div><div class='info'>" + marker.properties.info + "</div><div><img class='roundmap' src='https://maps.google.cn/maps/api/staticmap?size=200x200&zoom=12&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C" + lat + "," + lng + "'/></div>"
                         div_img_detail = div_img_detail + div_detail
                         new mapboxgl.Marker(el, {
-                            offset: [0, -13],
+                            offset: [0, -10],
                         })
                             .setLngLat(marker.geometry.coordinates)
                             // .setPopup(new mapboxgl.Popup({
@@ -300,6 +295,14 @@
                             // }) // add popups
                             //     .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
                             .addTo(map);
+
+                        el.addEventListener('click', function (e) {
+                            flyToMarker(marker);
+                        });
+
+                        // document.getElementsByClassName('thumbnail_img')[0].addEventListener('click', function (e) {
+                        //     flyToMarker(marker);
+                        // });
                     }
                 });
 
