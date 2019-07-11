@@ -101,6 +101,14 @@
             height: auto;
         }
 
+        .map_expand{
+            position:absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            width:24px;
+            height:24px;
+        }
         .roundmap {
             width: 4rem;
             height: 4rem;
@@ -208,7 +216,9 @@
                     container: 'map',
                     // style: 'mapbox://styles/ifoobtook/cjxyf0hmg0si11crleexlnv3c', //blank
                     // style: 'mapbox://styles/ifoobtook/cjxwnx5bi0uf11cn8bfgd8v03?optimize=true', //color
-                    style: 'mapbox://styles/ifoobtook/cjxyb70zm0p2k1cqrloukq4k6?optimize=true', //satellite
+                    // style: 'mapbox://styles/ifoobtook/cjxyb70zm0p2k1cqrloukq4k6?optimize=true', //satellite
+                    style: 'mapbox://styles/ifoobtook/cjxytzz830e721cpqexucj195?optimize=true', //satellite
+                    
                     zoom: 2,
                     center: [121.44, 31.75],
                     attributionControl: false,
@@ -342,6 +352,10 @@
                     }
                 }
 
+                function auto_zoom(linestring){
+                    map.fitBounds(turf.bbox(linestring), { padding: 50 });
+                }
+
                 function drawlines() {
                     console.log(positions)
                     var linestring = turf.lineString(positions);
@@ -363,7 +377,10 @@
                                 "line-width": 5
                             }
                         });
-                        map.fitBounds(turf.bbox(linestring), { padding: 50 });
+                        
+                        var div_map_icon = "<img class='map_expand' src='img/expand.png' style='CURSOR: pointer' onclick='auto_zoom(linestring)' />";
+                        $(document.body).append(div_map_icon);
+                        auto_zoom(linestring);
                     });
                 }
                 
