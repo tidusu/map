@@ -25,23 +25,17 @@ function wrap(text, width) {
     });
 } //wrap
 
-// 自动缩放级 
+// 自动缩放级  线形
 map.fitBounds(turf.bbox(linestring), {
     padding: 50,
     maxZoom: 15
 });
 
-// 自动缩放级 
-map.on('sourcedata', function (e) {
-    if (e.sourceId !== 'marker1' || !e.isSourceLoaded) return
-    var f = map.querySourceFeatures('marker1')
-    if (f.length === 0) return
-    var bbox = turf.bbox({
-        type: 'FeatureCollection',
-        features: f
-    });
-    map.fitBounds(bbox, {
-        padding: 10,
-        maxZoom: 15
-    });
+// 自动缩放级 2
+var bounds = new mapboxgl.LngLatBounds();
+
+markers.features.forEach(function(feature) {
+    bounds.extend(feature.geometry.coordinates);
 });
+
+map.fitBounds(bounds);
