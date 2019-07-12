@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>照片游记@打卡相册</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.bootcss.com/mapbox-gl/1.0.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/mapbox-gl/1.0.0/mapbox-gl.js"></script>
+    <script src="https://cdn.bootcss.com/Turf.js/5.1.6/turf.min.js"></script>
+    <script type="text/javascript" src="js/flexible_css.js"></script>
+    <script type="text/javascript" src="js/flexible.js"></script>
+    <script type="text/javascript" src="js/csv2geojson.js"></script>
+
+    <link href="reset.css" rel="stylesheet">
+    <link href="if3.css" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: './data/flow_data.csv',
+                dataType: "text",
+                success: function (csvData) { makeGeoJSON(csvData); }
+            });
+        });
+
+
+        function makeGeoJSON(csvData) {
+            var body = "";
+            var div_map = "<div><div id='map'></div></div>";
+            var div_thumbnail = "<div id='thumbnail'></div>";
+            var div_detail = "<div id='detail'></div>";
+            var div_gap = "<div class='gap'></div>"
+            var div_map_icon = "<img class='map_expand' src='img/expand.png' style='CURSOR: pointer' onclick='auto_zoom()' />";
+
+            csv2geojson.csv2geojson(csvData, {
+                latfield: 'lat',
+                lonfield: 'lng',
+                delimiter: ','
+            }, function (err, data) {
+                $(document.body).append(div_map);
+                mapboxgl.accessToken = 'pk.eyJ1IjoiaWZvb2J0b29rIiwiYSI6ImNqdnczZ3plODF5dDE0YW5uNGhpNWcyanAifQ.qgmnnkw85aN0xuI2HVcgHw';
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    // style: 'mapbox://styles/ifoobtook/cjxyf0hmg0si11crleexlnv3c', //blank
+                    // style: 'mapbox://styles/ifoobtook/cjxwnx5bi0uf11cn8bfgd8v03?optimize=true', //color
+                    // style: 'mapbox://styles/ifoobtook/cjxyb70zm0p2k1cqrloukq4k6?optimize=true', //satellite
+                    style: 'mapbox://styles/ifoobtook/cjxytzz830e721cpqexucj195?optimize=true', //satellite
+
+                    zoom: 2,
+                    center: [121.44, 31.75],
+                    attributionControl: false,
+                    logoPosition: 'bottom-left'
+                });
+
+                // 边界 用于地图缩放
+                var bounds = new mapboxgl.LngLatBounds();
+                // 位置数组 用于连线
+                var positions = [];
+
+                map.addControl(new mapboxgl.AttributionControl(), 'top-right');
+
+                // TMS
+                map.on("load", function () {
+                    map.addLayer({
+                        "id": "tms",
+                        "type": "raster",
+                        'source': {
+                            'type': 'raster',
+                            'tiles': [
+                                // "http://mt3.google.cn/vt/lyrs=y@167000000&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}"
+                                "http://shangetu1.map.bdimg.com/it/u=x={x};y={y};z={z};v=017;type=web&fm=44&udt=20130712"
+                            ]
+                        }
+                    });
+                });
+
+                // 地图位置切换
+                function flyToMarker(currentFeature) {
+                    map.flyTo({
+                        center: currentFeature.geometry.coordinates,
+                        zoom: 10
+                    });
+                } 
+
+                data.features.forEach(function (marker, i) {
+
+                    if (i === 0) {
+                        div_main_title = "<div class='main_title'>" + marker.properties.title + "</div>"
+                        div_main_info = "<div class='main_info'>" + marker.properties.info + "</div>"
+                    }
+                    if (i > 0) {
+
+                        bounds.extend(marker.geometry.coordinates);
+
+                        var lng = marker.geometry.coordinates[0]
+                        var lat = marker.geometry.coordinates[1]
+                        img_base64 = "data:image/jpg;base64," + marker.properties.base64;
+
+                        positions.push([Number(lng), Number(lat)])
+
+                        var el = document.createElement('div');
+                        el.className = 'marker';
+                        el.innerHTML = '<span><b>' + marker.properties.id + '</b></span>';
+
+                        var el2 = document.createElement('div');
+                        el2.className = 'marker_title';
+                        el2.innerHTML = '<span><b>' + marker.properties.title + '</b></span>';
+                        
+                        
+                        new mapboxgl.Marker(el2, {
+                            offset: [0, 10],
+                        })
+                            .setLngLat(marker.geometry.coordinates)
+                            .addTo(map);
+                        new mapboxgl.Marker(el, {
+                            offset: [0, -10],
+                        })
+                            .setLngLat(marker.geometry.coordinates)
+                            .addTo(map);
+                        el.addEventListener('click', function (e) {
+                            flyToMarker(marker);
+                        });
+                    }
+                });
+
+                // 自动缩放到范围
+                auto_zoom = function () { map.fitBounds(bounds, { padding: 50, maxZoom: 15 }); };
+
+                $(document.body).append("<div class='main'>" + div_main_info + div_main_title + "</div>" + div_thumbnail + div_detail + div_gap + div_map_icon)
+                auto_zoom();
+                build_thumbnail(data);
+                build_detail(data);
+                drawlines();
+
+                // 生成缩略图div
+                function build_thumbnail(data) {
+                    for (i = 1; i < data.features.length; i++) {
+                        var currentFeature = data.features[i];
+                        var prop = currentFeature.properties;
+                        var img_base64 = "data:image/jpg;base64," + prop.base64;
+
+                        var thumbnails = document.getElementById('thumbnail');
+                        var thumbnail = thumbnails.appendChild(document.createElement('div'));
+                        thumbnail.className = 'thumbnail_group';
+                        thumbnail.id = "thumbnail-" + i;
+
+                        var img = thumbnail.appendChild(document.createElement('img'));
+                        img.src = img_base64;
+                        img.className = 'thumbnail_img';
+                        img.dataPosition = i;
+                        img.innerHTML = prop.Name;
+
+                        var num = thumbnail.appendChild(document.createElement('div'));
+                        num.className = 'thumnail_num';
+                        num.dataPosition = i;
+                        num.innerHTML = "" + i;
+
+                        img.addEventListener('click', function (e) {
+                            // Update the currentFeature to the store associated with the clicked link
+                            var clickedListing = data.features[this.dataPosition];
+                            flyToMarker(clickedListing);
+                        });
+                        num.addEventListener('click', function (e) {
+                            // Update the currentFeature to the store associated with the clicked link
+                            var clickedListing = data.features[this.dataPosition];
+                            flyToMarker(clickedListing);
+                        });
+                    }
+                };
+
+                // 生成大图div
+                function build_detail(data) {
+                    for (i = 1; i < data.features.length; i++) {
+                        var currentFeature = data.features[i];
+                        var prop = currentFeature.properties;
+                        var lng = currentFeature.geometry.coordinates[0]
+                        var lat = currentFeature.geometry.coordinates[1]
+                        var img_base64 = "data:image/jpg;base64," + prop.base64;
+
+                        
+                        var details = document.getElementById('detail');
+                        var detail = details.appendChild(document.createElement('div'));
+                        detail.className = 'img_detail';
+                        
+                        var img = detail.appendChild(document.createElement('img'));
+                        img.src = img_base64;
+                        img.className = 'detail_img';
+
+                        var num = detail.appendChild(document.createElement('div'));
+                        num.className = 'num';
+                        num.innerHTML = "" + i;
+
+                        var infobox = detail.appendChild(document.createElement('div'));
+                        infobox.className = 'info_box';
+
+                        // var gap = detail.appendChild(document.createElement('div'));
+                        // gap.className = 'gap';
+
+
+                        var title = infobox.appendChild(document.createElement('div'));
+                        title.innerHTML = prop.title;
+                        title.className = 'title';
+
+                        var info = infobox.appendChild(document.createElement('div'));
+                        info.innerHTML = prop.info;
+                        info.className = 'info';
+
+                        
+                        var map_div = infobox.appendChild(document.createElement('div'));
+                        map_div.className = 'squaremap';
+
+                        var map_img = map_div.appendChild(document.createElement('img'));
+                        map_img.src = "https://maps.google.cn/maps/api/staticmap?size=500x200&zoom=12&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C" + lat + "," + lng;
+                        map_img.className = 'squaremap';
+                    }
+                }
+
+                // 地图连线
+                function drawlines() {
+                    console.log(positions)
+                    var linestring = turf.lineString(positions);
+                    map.on('load', function () {
+                        map.addLayer({
+                            "id": "route",
+                            "type": "line",
+                            "source": {
+                                "type": "geojson",
+                                "data": linestring
+                            },
+                            "layout": {
+                                "line-join": "round",
+                                "line-cap": "round"
+                            },
+                            "paint": {
+                                "line-color": "#0192FA",
+                                "line-opacity": 0.5,
+                                "line-width": 5
+                            }
+                        });
+                    });
+                };
+            });
+        }
+    </script>
+</body>
+
+</html>
