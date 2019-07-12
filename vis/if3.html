@@ -271,19 +271,18 @@
                 map.addControl(new mapboxgl.AttributionControl(), 'top-right');
 
                 // TMS
-                map.on("load", function () {
-                    map.addLayer({
-                        "id": "tms",
-                        "type": "raster",
-                        'source': {
-                            'type': 'raster',
-                            'tiles': [
-                                // "http://mt3.google.cn/vt/lyrs=y@167000000&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}"
-                                "http://shangetu1.map.bdimg.com/it/u=x={x};y={y};z={z};v=017;type=web&fm=44&udt=20130712"
-                            ]
-                        }
-                    });
-                });
+                // map.on("load", function () {
+                //     map.addLayer({
+                //         "id": "tms",
+                //         "type": "raster",
+                //         'source': {
+                //             'type': 'raster',
+                //             'tiles': [
+                //                 "http://mt3.google.cn/vt/lyrs=y@167000000&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}"
+                //             ]
+                //         }
+                //     });
+                // });
 
                 // 地图位置切换
                 function flyToMarker(currentFeature) {
