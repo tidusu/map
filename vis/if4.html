@@ -51,6 +51,8 @@
         }
 
         #map_box {
+            width: 100%;
+            top: 0px;
             position: fixed;
             z-index: 1000;
             transition: transform 1000ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
@@ -79,9 +81,10 @@
         }
 
         .map_expand {
+            z-index: 10;
             position: absolute;
-            top: 330px;
-            right: -27px;
+            top: 366px;
+            right: 10px;
             width: 24px;
             height: 24px;
         }
@@ -273,7 +276,7 @@
 
         function makeGeoJSON(csvData) {
             var body = "";
-            var div_map = "<div id='map_box'><div id='main'></div><div id='map'></div></div>";
+            var div_map = "<div id='map_box'><div id='main'></div><div id='map_btn'></div><div id='map'></div></div>";
             var div_thumbnail = "<div id='thumbnail' class='thumbnail_box'></div>";
             var div_detail = "<div id='detail'></div>";
             var div_gap = "<div class='gap'></div>"
@@ -340,8 +343,14 @@
                         div_main_info.className = 'main_info';
                         div_main_info.innerHTML = marker.properties.info;
 
-                        var div_main_icon = main.appendChild(document.createElement('div'));
-                        div_main_icon.innerHTML = div_map_icon;
+                        // var div_main_icon = main.appendChild(document.createElement('div'));
+                        // div_main_icon.innerHTML = div_map_icon;
+                        var btn = document.getElementById('map_btn');
+                        var div_main_icon = btn.appendChild(document.createElement('img'));
+                        div_main_icon.src = 'img/expand.png';
+                        div_main_icon.className = 'map_expand';
+                        div_main_icon.style = 'CURSOR: pointer';
+                        div_main_icon.onclick = 'auto_zoom()';
                     }
                     if (i > 0) {
 
