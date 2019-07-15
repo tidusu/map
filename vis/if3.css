@@ -162,6 +162,19 @@ body {
     text-align: center;
 }
 
+.time {
+    font-size: 0.2rem;
+    padding-top: 0.2rem;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    padding-bottom: 0.2rem;
+    font-weight: 400;
+    font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
+    line-height: 0.6rem;
+    text-align: center;
+    color: #555;
+}
+
 .info {
     font-size: 0.3rem;
     padding-top: 0.3rem;

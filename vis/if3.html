@@ -69,7 +69,7 @@
             box-sizing: border-box;
             width: 100px;
             height: auto;
-            color: #3a3a3a;
+            color: #555;
             font-size: 12px;
             cursor: pointer;
             transform-origin: 0 0;
@@ -124,7 +124,7 @@
             z-index: 1000;
             width: 8rem;
             height: auto;
-            color: #3a3a3a;
+            color: #333333;
             font-size: 0.5rem;
             font-weight: 500;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
@@ -137,7 +137,7 @@
             z-index: 1000;
             width: 5rem;
             height: auto;
-            color: #3a3a3a;
+            color: #333333;
             font-size: 0.7rem;
             font-weight: 500;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
@@ -176,23 +176,35 @@
             padding-top: 0.6rem;
             padding-left: 0.6rem;
             padding-right: 0.6rem;
-            color: #3a3a3a;
+            color: #333333;
             font-weight: 700;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             text-align: center;
         }
 
+        .time {
+            position: absolute;
+            bottom: 2.6rem;
+            right:0.2rem;
+            font-size: 0.1rem;
+            font-weight: 400;
+            font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
+            line-height: 0.6rem;
+            text-align: right;
+            color: #9e9d9d;
+        }
+
         .info {
             font-size: 0.38rem;
             padding-top: 0.3rem;
-            padding-left: 0.6rem;
-            padding-right: 0.6rem;
+            padding-left: 0.55rem;
+            padding-right: 0.55rem;
             padding-bottom: 0.6rem;
             font-weight: 400;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             line-height: 0.6rem;
             text-align: left;
-            color: #3a3a3a;
+            color: #555;
         }
 
         .detail_img {
@@ -288,7 +300,7 @@
                 function flyToMarker(currentFeature) {
                     map.flyTo({
                         center: currentFeature.geometry.coordinates,
-                        zoom: 10
+                        zoom: 16
                     });
                 }
 
@@ -410,6 +422,10 @@
                         var title = infobox.appendChild(document.createElement('div'));
                         title.innerHTML = prop.title;
                         title.className = 'title';
+
+                        // var time = infobox.appendChild(document.createElement('div'));
+                        // time.innerHTML = prop.time;
+                        // time.className = 'time';
 
                         var info = infobox.appendChild(document.createElement('div'));
                         info.innerHTML = prop.info;

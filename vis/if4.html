@@ -23,19 +23,64 @@
             padding: 0;
         }
 
+        .main_info {
+            width: 8rem;
+            height: auto;
+            color: #333333;
+            font-size: 0.5rem;
+            font-weight: 500;
+            font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
+            text-align: left;
+            text-transform: capitalize;
+            /* text-shadow: #00000020 0px 0px 10px; */
+        }
+
+        .main_title {
+            width: 5rem;
+            height: auto;
+            color: #333333;
+            font-size: 0.7rem;
+            font-weight: 500;
+            font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
+            text-align: left;
+            line-height: 0.8rem;
+            text-transform: capitalize;
+            /* text-shadow: #00000020 0px 0px 10px; */
+            margin-top: 0.2rem;
+        }
+
+        #map_box {
+            position: fixed;
+            z-index: 1000;
+            transition: transform 1000ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+            transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+        }
+
+        .hidden {
+            transform: translateY(-100%);
+        }
+
+        #main {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+        }
+
         #map {
             /* position: absolute; */
+            z-index: 0;
             top: 0;
             bottom: 0;
             width: 100%;
             height: 400px;
+            position: fixed;
         }
 
         .map_expand {
             position: absolute;
-            top: 366px;
-            right: 10px;
-            z-index: 1000;
+            top: 330px;
+            right: -27px;
             width: 24px;
             height: 24px;
         }
@@ -69,10 +114,15 @@
             box-sizing: border-box;
             width: 100px;
             height: auto;
-            color: #3a3a3a;
+            color: #555;
             font-size: 12px;
             cursor: pointer;
             transform-origin: 0 0;
+        }
+
+        #detail {
+            position: relative;
+            top: 400px;
         }
 
         .content {
@@ -87,17 +137,22 @@
             position: relative;
         }
 
+        .thumbnail_box {
+            position: relative;
+            top: 400px;
+        }
+
         .thumbnail_group {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 3.332rem;
+            height: 3.332rem;
             display: inline-block;
             padding: 0;
             margin: 0rem;
         }
 
         .thumbnail_img {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 3.332rem;
+            height: 3.332rem;
             /* padding: 0 6px; */
             /* float: left; */
             position: relative;
@@ -114,39 +169,6 @@
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
         }
 
-        .main {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-        }
-
-        .main_info {
-            z-index: 1000;
-            width: 8rem;
-            height: auto;
-            color: #3a3a3a;
-            font-size: 0.5rem;
-            font-weight: 500;
-            font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
-            text-align: left;
-            text-transform: capitalize;
-            /* text-shadow: #00000020 0px 0px 10px; */
-        }
-
-        .main_title {
-            z-index: 1000;
-            width: 5rem;
-            height: auto;
-            color: #3a3a3a;
-            font-size: 0.7rem;
-            font-weight: 500;
-            font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
-            text-align: left;
-            line-height: 0.8rem;
-            text-transform: capitalize;
-            /* text-shadow: #00000020 0px 0px 10px; */
-            margin-top: 0.2rem;
-        }
 
         .info_box {
             position: relative;
@@ -176,23 +198,35 @@
             padding-top: 0.6rem;
             padding-left: 0.6rem;
             padding-right: 0.6rem;
-            color: #3a3a3a;
+            color: #333333;
             font-weight: 700;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             text-align: center;
         }
 
+        .time {
+            position: absolute;
+            bottom: 2.6rem;
+            right: 0.2rem;
+            font-size: 0.1rem;
+            font-weight: 700;
+            font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
+            line-height: 0.6rem;
+            text-align: right;
+            color: #9e9d9d;
+        }
+
         .info {
-            font-size: 0.35rem;
+            font-size: 0.38rem;
             padding-top: 0.3rem;
-            padding-left: 0.6rem;
-            padding-right: 0.6rem;
+            padding-left: 0.55rem;
+            padding-right: 0.55rem;
             padding-bottom: 0.6rem;
             font-weight: 400;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
-            line-height: 0.5rem;
+            line-height: 0.6rem;
             text-align: left;
-            color: #3a3a3a;
+            color: #555;
         }
 
         .detail_img {
@@ -232,13 +266,14 @@
                 dataType: "text",
                 success: function (csvData) { makeGeoJSON(csvData); }
             });
+
         });
 
 
         function makeGeoJSON(csvData) {
             var body = "";
-            var div_map = "<div><div id='map'></div></div>";
-            var div_thumbnail = "<div id='thumbnail'></div>";
+            var div_map = "<div id='map_box'><div id='main'></div><div id='map'></div></div>";
+            var div_thumbnail = "<div id='thumbnail' class='thumbnail_box'></div>";
             var div_detail = "<div id='detail'></div>";
             var div_gap = "<div class='gap'></div>"
             var div_map_icon = "<img class='map_expand' src='img/expand.png' style='CURSOR: pointer' onclick='auto_zoom()' />";
@@ -271,33 +306,41 @@
                 map.addControl(new mapboxgl.AttributionControl(), 'top-right');
 
                 // TMS
-                map.on("load", function () {
-                    map.addLayer({
-                        "id": "tms",
-                        "type": "raster",
-                        'source': {
-                            'type': 'raster',
-                            'tiles': [
-                                // "http://mt3.google.cn/vt/lyrs=y@167000000&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}"
-                                "http://shangetu1.map.bdimg.com/it/u=x={x};y={y};z={z};v=017;type=web&fm=44&udt=20130712"
-                            ]
-                        }
-                    });
-                });
+                // map.on("load", function () {
+                //     map.addLayer({
+                //         "id": "tms",
+                //         "type": "raster",
+                //         'source': {
+                //             'type': 'raster',
+                //             'tiles': [
+                //                 "http://mt3.google.cn/vt/lyrs=y@167000000&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}"
+                //             ]
+                //         }
+                //     });
+                // });
 
                 // 地图位置切换
                 function flyToMarker(currentFeature) {
                     map.flyTo({
                         center: currentFeature.geometry.coordinates,
-                        zoom: 10
+                        zoom: 16
                     });
                 }
 
                 data.features.forEach(function (marker, i) {
 
                     if (i === 0) {
-                        div_main_title = "<div class='main_title'>" + marker.properties.title + "</div>"
-                        div_main_info = "<div class='main_info'>" + marker.properties.info + "</div>"
+                        var main = document.getElementById('main');
+                        var div_main_title = main.appendChild(document.createElement('div'));
+                        div_main_title.className = 'main_title';
+                        div_main_title.innerHTML = marker.properties.title;
+
+                        var div_main_info = main.appendChild(document.createElement('div'));
+                        div_main_info.className = 'main_info';
+                        div_main_info.innerHTML = marker.properties.info;
+
+                        var div_main_icon = main.appendChild(document.createElement('div'));
+                        div_main_icon.innerHTML = div_map_icon;
                     }
                     if (i > 0) {
 
@@ -336,12 +379,35 @@
 
                 // 自动缩放到范围
                 auto_zoom = function () { map.fitBounds(bounds, { padding: 50, maxZoom: 15 }); };
-
-                $(document.body).append("<div class='main'>" + div_main_info + div_main_title + "</div>" + div_thumbnail + div_detail + div_gap + div_map_icon)
+                // "<div class='main'>" + div_main_info + div_main_title + "</div>" + 
+                $(document.body).append(div_thumbnail + div_detail + div_gap)
                 auto_zoom();
                 build_thumbnail(data);
                 build_detail(data);
                 drawlines();
+
+                var ht = $("#thumbnail").height();
+                $(window).scroll(function () {
+                    // 滚动条距离顶部的距离 大于 200px时
+                    if ($(window).scrollTop() >= ht) {
+                        $("#map_box").stop(true, true).fadeOut(1000); // 开始淡入
+                    } else {
+                        $("#map_box").fadeIn(1000); // 如果小于等于 200 淡出
+                    }
+                });
+
+                //     var prev = 400;
+                //     var view = $(window);
+                //     var mast = $('#map_box');
+                //     console.log(mast)
+                //     console.log(prev)
+
+                // view.on('scroll', function () {
+                //     var scrollTop = view.scrollTop();
+                //     mast.toggleClass('hidden', scrollTop = prev);
+                //     console.log(scrollTop);
+                //     // prev = scrollTop;
+                // });
 
                 // 生成缩略图div
                 function build_thumbnail(data) {
@@ -411,6 +477,10 @@
                         var title = infobox.appendChild(document.createElement('div'));
                         title.innerHTML = prop.title;
                         title.className = 'title';
+
+                        var time = infobox.appendChild(document.createElement('div'));
+                        time.innerHTML = prop.time;
+                        time.className = 'time';
 
                         var info = infobox.appendChild(document.createElement('div'));
                         info.innerHTML = prop.info;
