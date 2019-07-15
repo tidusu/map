@@ -360,7 +360,6 @@
                         el2.className = 'marker_title';
                         el2.innerHTML = '<span><b>' + marker.properties.title + '</b></span>';
 
-
                         new mapboxgl.Marker(el2, {
                             offset: [0, 10],
                         })
@@ -390,24 +389,11 @@
                 $(window).scroll(function () {
                     // 滚动条距离顶部的距离 大于 200px时
                     if ($(window).scrollTop() >= ht) {
-                        $("#map_box").stop(true, true).fadeOut(1000); // 开始淡入
+                        $("#map_box").fadeOut(500); // 开始淡入
                     } else {
-                        $("#map_box").fadeIn(1000); // 如果小于等于 200 淡出
+                        $("#map_box").fadeIn(500); // 如果小于等于 200 淡出
                     }
                 });
-
-                //     var prev = 400;
-                //     var view = $(window);
-                //     var mast = $('#map_box');
-                //     console.log(mast)
-                //     console.log(prev)
-
-                // view.on('scroll', function () {
-                //     var scrollTop = view.scrollTop();
-                //     mast.toggleClass('hidden', scrollTop = prev);
-                //     console.log(scrollTop);
-                //     // prev = scrollTop;
-                // });
 
                 // 生成缩略图div
                 function build_thumbnail(data) {
@@ -472,7 +458,6 @@
 
                         // var gap = detail.appendChild(document.createElement('div'));
                         // gap.className = 'gap';
-
 
                         var title = infobox.appendChild(document.createElement('div'));
                         title.innerHTML = prop.title;
