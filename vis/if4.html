@@ -5,18 +5,16 @@
     <meta charset="utf-8">
     <title>照片游记@打卡相册</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://cdn.bootcss.com/mapbox-gl/1.0.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/mapbox-gl/1.0.0/mapbox-gl.js"></script>
-    <script src="https://cdn.bootcss.com/Turf.js/5.1.6/turf.min.js"></script>
-    <script type="text/javascript" src="js/flexible_css.js"></script>
+    <!-- <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/mapbox-gl/1.0.0/mapbox-gl.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/Turf.js/5.1.6/turf.min.js"></script> -->
+    <!-- <script type="text/javascript" src="js/flexible_css.js"></script>
     <script type="text/javascript" src="js/flexible.js"></script>
-    <script type="text/javascript" src="js/csv2geojson.js"></script>
-
-    <link href="reset.css" rel="stylesheet">
+    <script type="text/javascript" src="js/csv2geojson.js"></script> -->
+    <script type="text/javascript" src="js/if.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://cdn.bootcss.com/mapbox-gl/1.0.0/mapbox-gl.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -33,11 +31,10 @@
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             text-align: left;
             text-transform: capitalize;
-            /* text-shadow: #00000020 0px 0px 10px; */
         }
 
         .main_title {
-            width: 5rem;
+            width: 6rem;
             height: auto;
             color: #333333;
             font-size: 0.7rem;
@@ -46,7 +43,6 @@
             text-align: left;
             line-height: 0.8rem;
             text-transform: capitalize;
-            /* text-shadow: #00000020 0px 0px 10px; */
             margin-top: 0.2rem;
         }
 
@@ -71,7 +67,6 @@
         }
 
         #map {
-            /* position: absolute; */
             z-index: 0;
             top: 0;
             bottom: 0;
@@ -79,6 +74,8 @@
             height: 400px;
             position: fixed;
         }
+
+        
 
         .map_expand {
             z-index: 10;
@@ -92,6 +89,7 @@
         .marker {
             border: none;
             cursor: pointer;
+            z-index: 101;
             height: 36px;
             width: 36px;
             background-image: url(label.png);
@@ -112,11 +110,12 @@
         }
 
         .marker_title span {
+            z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
             box-sizing: border-box;
-            width: 100px;
+            width: 200px;
             height: auto;
             color: #555;
             font-size: 12px;
@@ -126,24 +125,20 @@
 
         #detail {
             position: relative;
-            top: 400px;
         }
 
-        .content {
-            width: 100%;
-            margin-top: 6.66667rem;
+        #content {
+            position: relative;
+            top: 400px;
         }
 
         .img_content {
             height: auto;
-            /* margin-top: 6.66667rem; */
-            /* margin-bottom: 6.66667rem; */
             position: relative;
         }
 
         .thumbnail_box {
             position: relative;
-            top: 400px;
         }
 
         .thumbnail_group {
@@ -157,8 +152,6 @@
         .thumbnail_img {
             width: 3.332rem;
             height: 3.332rem;
-            /* padding: 0 6px; */
-            /* float: left; */
             position: relative;
             object-fit: cover;
         }
@@ -189,7 +182,8 @@
 
         .num {
             position: absolute;
-            transform: translate(7.4rem, -3rem);
+            right: 1rem;
+            transform: translate(0rem, -3.7rem);
             font-size: 3rem;
             font-weight: 700;
             color: #fff;
@@ -209,15 +203,18 @@
         }
 
         .time {
+            padding-left: 0.2rem;
+            padding-right: 0.2rem;
             position: absolute;
-            bottom: 2.6rem;
-            right: 0.2rem;
+            bottom: 0rem;
+            right: 0rem;
             font-size: 0.25rem;
             font-weight: 700;
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             line-height: 0.6rem;
             text-align: right;
             color: #9e9d9d;
+            background-color: #ffffff8c;
         }
 
         .info {
@@ -251,7 +248,7 @@
         }
 
         .squaremap {
-            border-radius: 2px 2px 0 0;
+            border-radius: 0 0 2px 2px;
             width: 8rem;
         }
 
@@ -276,6 +273,7 @@
 
         function makeGeoJSON(csvData) {
             var body = "";
+            var div_content = "<div id='content'></div>";
             var div_map = "<div id='map_box'><div id='main'></div><div id='map_btn'></div><div id='map'></div></div>";
             var div_thumbnail = "<div id='thumbnail' class='thumbnail_box'></div>";
             var div_detail = "<div id='detail'></div>";
@@ -309,20 +307,6 @@
 
                 map.addControl(new mapboxgl.AttributionControl(), 'top-right');
 
-                // TMS
-                // map.on("load", function () {
-                //     map.addLayer({
-                //         "id": "tms",
-                //         "type": "raster",
-                //         'source': {
-                //             'type': 'raster',
-                //             'tiles': [
-                //                 "http://mt3.google.cn/vt/lyrs=y@167000000&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}"
-                //             ]
-                //         }
-                //     });
-                // });
-
                 // 地图位置切换
                 function flyToMarker(currentFeature) {
                     map.flyTo({
@@ -350,7 +334,7 @@
                         div_main_icon.src = 'img/expand.png';
                         div_main_icon.className = 'map_expand';
                         div_main_icon.style = 'CURSOR: pointer';
-                        div_main_icon.onclick = 'auto_zoom()';
+                        div_main_icon.onclick = function(){auto_zoom();};
                     }
                     if (i > 0) {
 
@@ -388,20 +372,21 @@
 
                 // 自动缩放到范围
                 auto_zoom = function () { map.fitBounds(bounds, { padding: 50, maxZoom: 15 }); };
-                // "<div class='main'>" + div_main_info + div_main_title + "</div>" + 
-                $(document.body).append(div_thumbnail + div_detail + div_gap)
+                $(document.body).append(div_content)
+                $('#content').append(div_thumbnail + div_detail + div_gap)
                 auto_zoom();
                 build_thumbnail(data);
                 build_detail(data);
                 drawlines();
 
+                // 地图淡入淡出
                 var ht = $("#thumbnail").height();
                 $(window).scroll(function () {
                     // 滚动条距离顶部的距离 大于 200px时
                     if ($(window).scrollTop() >= ht) {
-                        $("#map_box").fadeOut(500); // 开始淡入
+                        $("#map_box").fadeOut(20); // 开始淡入
                     } else {
-                        $("#map_box").fadeIn(500); // 如果小于等于 200 淡出
+                        $("#map_box").fadeIn(200); // 如果小于等于 200 淡出
                     }
                 });
 

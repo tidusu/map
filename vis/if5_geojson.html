@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>照片游记@打卡相册</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script type="text/javascript" src="if.js"></script>
+    <link rel="stylesheet" href="if.css">
+</head>
+
+<body>
+    <script>
+        function page(json) {
+            var geojson = json;
+            var body = "";
+            var div_content = "<div id='content'></div>";
+            var div_map = "<div id='map_box'><div id='main'></div><div id='map_btn'></div><div id='map'></div></div>";
+            var div_thumbnail = "<div id='thumbnail' class='thumbnail_box'></div>";
+            var div_detail = "<div id='detail'></div>";
+            var div_gap = "<div class='gap'></div>"
+            var div_map_icon = "<img class='map_expand' src='img/expand.png' style='CURSOR: pointer' onclick='auto_zoom()' />";
+            $(document.body).append(div_map);
+            mapboxgl.accessToken = 'pk.eyJ1IjoiaWZvb2J0b29rIiwiYSI6ImNqdnczZ3plODF5dDE0YW5uNGhpNWcyanAifQ.qgmnnkw85aN0xuI2HVcgHw';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/ifoobtook/cjxytzz830e721cpqexucj195?optimize=true', 
+
+                zoom: 2,
+                center: [121.44, 31.75],
+                attributionControl: false,
+                logoPosition: 'bottom-left'
+            });
+
+            // 边界 用于地图缩放
+            var bounds = new mapboxgl.LngLatBounds();
+            // 位置数组 用于连线
+            var positions = [];
+
+            map.addControl(new mapboxgl.AttributionControl(), 'top-right');
+
+            // 地图位置切换
+            function flyToMarker(currentFeature) {
+                map.flyTo({
+                    center: currentFeature.geometry.coordinates,
+                    zoom: 16
+                });
+            }
+
+            geojson.features.forEach(function (marker, i) {
+
+                if (i === 0) {
+                    var main = document.getElementById('main');
+                    var div_main_title = main.appendChild(document.createElement('div'));
+                    div_main_title.className = 'main_title';
+                    div_main_title.innerHTML = marker.properties.title;
+
+                    var div_main_info = main.appendChild(document.createElement('div'));
+                    div_main_info.className = 'main_info';
+                    div_main_info.innerHTML = marker.properties.imgShowDate;
+
+                    // var div_main_icon = main.appendChild(document.createElement('div'));
+                    // div_main_icon.innerHTML = div_map_icon;
+                    var btn = document.getElementById('map_btn');
+                    var div_main_icon = btn.appendChild(document.createElement('img'));
+                    div_main_icon.src = 'img/expand.png';
+                    div_main_icon.className = 'map_expand';
+                    div_main_icon.style = 'CURSOR: pointer';
+                    div_main_icon.onclick = function () { auto_zoom(); };
+                }
+                if (i > 0) {
+
+                    bounds.extend(marker.geometry.coordinates);
+
+                    var lng = marker.geometry.coordinates[0]
+                    var lat = marker.geometry.coordinates[1]
+                    img_base64 = "data:image/jpg;base64," + marker.properties.imgBase64Data;
+
+                    positions.push([Number(lng), Number(lat)])
+
+                    var el = document.createElement('div');
+                    el.className = 'marker';
+                    el.innerHTML = '<span><b>' + marker.properties.id + '</b></span>';
+
+                    var el2 = document.createElement('div');
+                    el2.className = 'marker_title';
+                    el2.innerHTML = '<span><b>' + marker.properties.title + '</b></span>';
+
+                    new mapboxgl.Marker(el2, {
+                        offset: [0, 10],
+                    })
+                        .setLngLat(marker.geometry.coordinates)
+                        .addTo(map);
+                    new mapboxgl.Marker(el, {
+                        offset: [0, -10],
+                    })
+                        .setLngLat(marker.geometry.coordinates)
+                        .addTo(map);
+                    el.addEventListener('click', function (e) {
+                        flyToMarker(marker);
+                    });
+                }
+            });
+
+            // 自动缩放到范围
+            auto_zoom = function () { map.fitBounds(bounds, { padding: 50, maxZoom: 15 }); };
+            $(document.body).append(div_content)
+            $('#content').append(div_thumbnail + div_detail + div_gap)
+            auto_zoom();
+            build_thumbnail(geojson);
+            build_detail(geojson);
+            drawlines();
+
+            // 地图淡入淡出
+            var ht = $("#thumbnail").height();
+            $(window).scroll(function () {
+                if  (document.body.scrollTop > ht || document.documentElement.scrollTop > ht) {
+                // if ($(window).scrollTop() > ht) {
+                    $('#map_box').css('transform', 'translateY(-400px)');
+                } else {
+                    $('#map_box').css('transform', 'translateY(0px)');
+                }
+            });
+
+            // 生成缩略图div
+            function build_thumbnail(data) {
+                for (i = 1; i < data.features.length; i++) {
+                    var currentFeature = data.features[i];
+                    var prop = currentFeature.properties;
+                    var img_base64 = "data:image/jpg;base64," + prop.imgBase64Data;
+
+                    var thumbnails = document.getElementById('thumbnail');
+                    var thumbnail = thumbnails.appendChild(document.createElement('div'));
+                    thumbnail.className = 'thumbnail_group';
+                    thumbnail.id = "thumbnail-" + i;
+
+                    var img = thumbnail.appendChild(document.createElement('img'));
+                    img.src = img_base64;
+                    img.className = 'thumbnail_img';
+                    img.dataPosition = i;
+                    img.innerHTML = prop.Name;
+
+                    var num = thumbnail.appendChild(document.createElement('div'));
+                    num.className = 'thumnail_num';
+                    num.dataPosition = i;
+                    num.innerHTML = "" + i;
+
+                    img.addEventListener('click', function (e) {
+                        // Update the currentFeature to the store associated with the clicked link
+                        var clickedListing = data.features[this.dataPosition];
+                        flyToMarker(clickedListing);
+                    });
+                    num.addEventListener('click', function (e) {
+                        // Update the currentFeature to the store associated with the clicked link
+                        var clickedListing = data.features[this.dataPosition];
+                        flyToMarker(clickedListing);
+                    });
+                }
+            };
+
+            // 生成大图div
+            function build_detail(data) {
+                for (i = 1; i < data.features.length; i++) {
+                    var currentFeature = data.features[i];
+                    var prop = currentFeature.properties;
+                    var lng = currentFeature.geometry.coordinates[0]
+                    var lat = currentFeature.geometry.coordinates[1]
+                    var img_base64 = "data:image/jpg;base64," + prop.imgBase64Data;
+
+
+                    var details = document.getElementById('detail');
+                    var detail = details.appendChild(document.createElement('div'));
+                    detail.className = 'img_detail';
+
+                    var img = detail.appendChild(document.createElement('img'));
+                    img.src = img_base64;
+                    img.className = 'detail_img';
+
+                    var num = detail.appendChild(document.createElement('div'));
+                    num.className = 'num';
+                    num.innerHTML = "" + i;
+
+                    var infobox = detail.appendChild(document.createElement('div'));
+                    infobox.className = 'info_box';
+
+                    // var gap = detail.appendChild(document.createElement('div'));
+                    // gap.className = 'gap';
+
+                    var title = infobox.appendChild(document.createElement('div'));
+                    title.innerHTML = prop.title;
+                    title.className = 'title';
+
+                    var time = infobox.appendChild(document.createElement('div'));
+                    time.innerHTML = prop.imgShowDate;
+                    time.className = 'time';
+
+                    var info = infobox.appendChild(document.createElement('div'));
+                    info.innerHTML = prop.imgDescribe;
+                    info.className = 'info';
+
+
+                    var map_div = infobox.appendChild(document.createElement('div'));
+                    map_div.className = 'squaremap';
+
+                    var map_img = map_div.appendChild(document.createElement('img'));
+                    map_img.src = "https://maps.google.cn/maps/api/staticmap?size=500x200&zoom=12&scale=2&maptype=roadmap&key=AIzaSyBjIiySGuqzdkj5hxExGJLVT-0CYfl3OfE&markers=color:red%7C" + lat + "," + lng;
+                    map_img.className = 'squaremap';
+                }
+            }
+
+            // 地图连线
+            function drawlines() {
+                // console.log(positions)
+                var linestring = turf.lineString(positions);
+                map.on('load', function () {
+                    map.addLayer({
+                        "id": "route",
+                        "type": "line",
+                        "source": {
+                            "type": "geojson",
+                            "data": linestring
+                        },
+                        "layout": {
+                            "line-join": "round",
+                            "line-cap": "round"
+                        },
+                        "paint": {
+                            "line-color": "#0192FA",
+                            "line-opacity": 0.5,
+                            "line-width": 5
+                        }
+                    });
+                });
+            };
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.getJSON("if.json", function (result) { 
+                page(result);
+            });
+        });
+    </script>
+</body>
+
+</html>
