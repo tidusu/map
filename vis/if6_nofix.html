@@ -6,7 +6,7 @@
     <title>照片游记@打卡相册</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script type="text/javascript" src="if.js"></script>
-    <link rel="stylesheet" href="if.css">
+    <link rel="stylesheet" href="if2.css">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
             var geojson = json;
             var body = "";
             var div_content = "<div id='content'></div>";
-            var div_map = "<div id='map_box'><div id='main'></div><div id='map_btn'></div><div id='map'></div></div>";
+            var div_map = "<div id='map_box'><div id='map_btn'></div><div id='map'></div></div><div id='main'></div>";
             var div_thumbnail = "<div id='thumbnail' class='thumbnail_box'></div>";
             var div_detail = "<div id='detail'></div>";
             var div_gap = "<div class='gap'></div>"
@@ -110,17 +110,6 @@
             build_thumbnail(geojson);
             build_detail(geojson);
             drawlines();
-
-            // 地图淡入淡出
-            var ht = $("#thumbnail").height();
-            $(window).scroll(function () {
-                if  (document.body.scrollTop > ht || document.documentElement.scrollTop > ht) {
-                // if ($(window).scrollTop() > ht) {
-                    $('#map_box').css('transform', 'translateY(-400px)');
-                } else {
-                    $('#map_box').css('transform', 'translateY(0px)');
-                }
-            });
 
             // 生成缩略图div
             function build_thumbnail(data) {
