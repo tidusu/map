@@ -5,13 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <title>百度地图DEMO</title>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=3f6WI91lth2wPx1IC9iRmjLdvBgj60Aa"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=3f6WI91lth2wPx1IC9iRmjLdvBgj60Aa"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
 
         var queryHouseOutline = function(hid, callback) {
-            var baseURL = 'http://map.baidu.com/?reqflag=pcmap&coord_type=3&from=webmap&qt=ext&ext_ver=new&l=18';
+            var baseURL = 'https://map.baidu.com/?reqflag=pcmap&coord_type=3&from=webmap&qt=ext&ext_ver=new&l=18';
             var url = baseURL + "&uid=" + hid;
             callback && (window.queryHouseOutlineCallback = callback);
             $.ajax({
