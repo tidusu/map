@@ -32,7 +32,7 @@
          * @param {} callback   回调函数，该函数可以接收到请求的返回值
          */
         var queryHouse = function(house, city, ak, callback) {
-            var baseURL = 'http://api.map.baidu.com/place/v2/search?output=json&scope=2';
+            var baseURL = 'https://api.map.baidu.com/place/v2/search?output=json&scope=2';
             var url = baseURL + "&q=" + house + "&region=" + city + "&ak=" + ak;
             callback && (window.queryHouseCallback = callback);
             $.ajax({
