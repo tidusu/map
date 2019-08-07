@@ -159,7 +159,21 @@
                                 var geoObj = parseGeo(geo);
                                 //边界点
                                 var points = coordinateToPoints(map, geoObj.points);
-                                alert(geoObj.points);
+                                console.log(points);
+                                var pointstr = 'POLYGON(('
+                                for (var i=0,len=points.length;i<len;i++){
+                                    var lat = points[i].lat
+                                    var lng = points[i].lng
+                                    if (i < len - 1){
+                                        pointstr += lng + ' ' + lat + ','
+                                    }
+                                    else{
+                                        pointstr += lng + ' ' + lat + '))'
+                                    }                                   
+                                }
+                                var pointsdiv = document.getElementById('points');
+                                pointsdiv.innerHTML = pointstr;
+                                console.log("points=",pointstr);
                                 var ply = new BMap.Polygon(points, {
                                     strokeWeight: 2,
                                     strokeColor: "#F01B2D",
@@ -207,7 +221,8 @@
             </td>
         </tr>
     </table>
-    <div id="allmap" style="width: 90vw; height: 90vh;"></div>
+    <div id="allmap" style="width: 90vw; height: 70vh;"></div>
+    <div id='points'></div>
 </body>
 
 </html>
