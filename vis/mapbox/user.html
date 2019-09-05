@@ -112,14 +112,14 @@
 
         .marker1 {
             /* background-image: url(https://media.giphy.com/media/Bfa45K0r6cCIw/giphy.gif); */
-            background-image: url(https://headimg.ifootbook.com/test/output1.gif);
+            background-image: url(https://headimg.ifootbook.com/test/output2.gif);
             background-size: cover;
             width: 32px;
             height: 32px;
         }
         .marker2 {
             /* background-image: url(https://media.giphy.com/media/Bfa45K0r6cCIw/giphy.gif); */
-            background-image: url(https://headimg.ifootbook.com/test/output1.gif);
+            background-image: url(https://headimg.ifootbook.com/test/output2.gif);
             background-size: cover;
             filter:hue-rotate(170deg);
             width: 20px;
@@ -172,6 +172,10 @@
                     attributionControl: false,
                     logoPosition: 'top-left'
                 });
+                // disable map rotation using right click + drag
+                map.dragRotate.disable();
+                // disable map rotation using touch rotation gesture
+                map.touchZoomRotate.disableRotation();
 
                 map.addControl(new mapboxgl.AttributionControl(), 'top-right');
 
