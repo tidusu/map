@@ -72,7 +72,7 @@
             font-weight: 700;
         }
         h2,h3,p
-        .data,.data2,.data_flag,.data_city
+        .data,.data2,.data_flag,.data_city,.data_user
         {
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei";
             letter-spacing: 1px; 
@@ -83,7 +83,10 @@
             font-size: 2em;
             font-weight: 700;
         }
-
+        .data_user{
+            font-weight: 700;
+            font-size: 1em;
+        }
         .data2{
             font-size: 1em;
         }
@@ -156,7 +159,7 @@
                 lonfield: 'lon',
                 delimiter: ','
             }, function (err, data) {
-                // alert(JSON.stringify(data));
+                alert(JSON.stringify(data));
                 // $('.data').text(JSON.stringify(data));
                 // console.log(data);
 
@@ -188,8 +191,15 @@
                 var flag_list = []
                 var maker1_list = []
                 var maker2_list = []
+                var nickname = '用户'
+                var rank = 0
                 data.features.forEach(function (feature) {
-                    user_countrys.push(feature.properties["country"]);
+                    if(feature.properties["code"] == '0'){
+                        nickname = feature.properties["country"]
+                        console.log(nickname)
+                    }else{
+                        user_countrys.push(feature.properties["country"]);
+                    }
                     user_cities.push(feature.properties["city"]);
                     flag_list.push(feature.properties["flag"]);
                     if(feature.properties["count"]>100){
@@ -235,11 +245,25 @@
                 count_city = user_cities2.length;
                 // console.log(user_countrys2)
                 // console.log(user_cities2)
-                console.log(maker1_list)
+                // console.log(maker1_list)
                 // console.log(count_country)
                 // console.log(count_city)
                 // console.log(china_cities2)
                 // console.log(foreign_cities2)
+
+                if(count_city == 1){
+                    rank = 20
+                }else if( count_city > 1 && count_city < 5){
+                    rank = 50
+                }else if( count_city > 5 && count_city < 10){
+                    rank = 80
+                }else if( count_city > 10 && count_city < 50){
+                    rank = 90
+                }else if( count_city > 50 && count_city < 100){
+                    rank = 95
+                }else{
+                    rank = 99
+                }
 
                 map.on('load', function () {
                     // 控制图层顺序
@@ -380,6 +404,17 @@
 
                     function addeUserData(count_country, count_city) {
                         var user_frame = document.getElementById('features2');
+
+
+                        var user_name = user_frame.appendChild(document.createElement('div'));
+                        user_name.className = 'feature_line'
+                        user_name.innerHTML = '<span class="data_user">' + nickname + '</span>';
+                        
+                        var user_rank = user_frame.appendChild(document.createElement('div'));
+                        user_rank.className = 'feature_line'
+                        user_rank.innerHTML = '<span class="data2">超越了</span>'+ '<span class="data">' + rank + '</span>'+ '<span class="data2">%的地球人</span>';
+                        
+
                         var count1 = user_frame.appendChild(document.createElement('div'));
                         count1.className = 'feature_line'
                         count1.innerHTML = '<span class="data2">点亮</span>' + '<span class="data">' + count_country + '</span>'+ '<span class="data2">个国家</span>';
@@ -400,7 +435,6 @@
                         user_foreign.className = 'feature_line'
                         user_foreign.innerHTML = '<span class="data_city">' + foreign_cities_str + '</span>';
                     };
-
                     addeUserData(count_country, count_city);
                     
 
