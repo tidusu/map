@@ -128,9 +128,9 @@
                     t_h = factor(layer.frame.height)
                     console.log(`x:${t_x}\ny:${t_y}\nw:${t_w}\nh:${t_h}\nsize:${t_size}\ncolor:${t_color}\nalign:${t_align}`)
 
-                    // 文字框
-                    ctx_t.fillStyle = "rgba(255, 255, 0, 0.2)"
-                    ctx_t.fillRect(t_x, t_y, t_w, t_h)
+                    // // 文字框
+                    // ctx_t.fillStyle = "rgba(255, 255, 0, 0.2)"
+                    // ctx_t.fillRect(t_x, t_y, t_w, t_h)
 
                     // 文字
                     ctx_t.font = `bold ${t_size}px sans-serif`;
