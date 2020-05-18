@@ -33,7 +33,7 @@
         "movable": 0,
         "type": "image",
         "attr": {
-            "src": "https://testimg.ifootbook.com/image/mini/watermark/watermark.png",
+            "src": "https://testimg.ifootbook.com/image/mini/front%E5%9F%8E%E5%B8%821_34_front_0416.png",
             "transform": {
                 "x": 0,
                 "y": 0,
@@ -95,7 +95,7 @@
         "movable": 0,
         "type": "image",
         "attr": {
-            "src": "watermark",
+            "src": "https://testimg.ifootbook.com/image/mini/watermark/watermark.png",
             "transform": {
                 "x": 0,
                 "y": 0,
