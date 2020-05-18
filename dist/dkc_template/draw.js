@@ -101,11 +101,47 @@
             input.addEventListener('change', readFile, false);
         }
 
-        drawDefalt()
+        drawCamera('a2.jpg')
 
         // 缩放因子
         function factor(data) {
             return data * w / ww
+        }
+
+        function drawCamera(imgSrc){
+
+            var img = new Image();   // 创建一个<img>元素
+            img.onload = function () {
+
+                this_width = this.width
+                this_height = this.height
+
+                f_x = factor(canvas_json.camera.x)
+                f_y = factor(canvas_json.camera.y)
+                f_w = factor(canvas_json.camera.width)
+                f_h = factor(canvas_json.camera.height)
+
+                // alert(this_width + this_height);
+                console.log(`图片尺寸：${this_width} ${this_height}`);
+                
+                // 长宽比适合
+                let [input_w, input_h] = [this.width, this.height]
+                if (input_w / input_h > 3 / 4) {
+                    c_w = input_h / h * w
+                    ch = input_h
+                    cx = (input_w - c_w) / 2
+                    cy = 0
+
+                } else {
+                    c_w = input_w
+                    ch = input_w / w * h
+                    cx = 0
+                    cy = (input_h - ch) / 2
+                }
+                ctx.drawImage(img, cx, cy, c_w, ch, f_x, f_y, f_w, f_h)
+                drawLayer(clayers)
+            }
+            img.src = imgSrc;
         }
 
         function drawLayer(layers) {
@@ -179,9 +215,6 @@
         function readFile() {
             var file = this.files[0];
 
-            // 图片方向角
-            var Orientation = null;
-
             if (file) {
                 var rFilter = /^(image\/jpeg|image\/png)$/i; // 检查图片格式
 
@@ -199,64 +232,11 @@
                     const reader = new FileReader();
                     reader.readAsDataURL(value);
                     reader.onload = function (e) {
-                        var img = new Image();   // 创建一个<img>元素
-                        img.onload = function () {
-
-                            this_width = this.width
-                            this_height = this.height
-
-                            // alert(this_width + this_height);
-                            console.log(`图片尺寸：${this_width} ${this_height}`);
-
-                            let [input_w, input_h] = [this.width, this.height]
-                            if (input_w / input_h > 3 / 4) {
-                                cw = input_h / h * w
-                                ch = input_h
-                                cx = (input_w - cw) / 2
-                                cy = 0
-
-                            } else {
-                                cw = input_w
-                                ch = input_w / w * h
-                                cx = 0
-                                cy = (input_h - ch) / 2
-                            }
-                            ctx.drawImage(img, cx, cy, cw, ch, 0, 0, w, h)
-                            drawLayer(clayers)
-                        }
-                        img.src = reader.result;
+                        drawCamera(reader.result);
                     };
 
                 });
             }
         }
 
-        function drawDefalt(){
-            var img = new Image();   // 创建一个<img>元素
-            img.onload = function () {
-
-                this_width = this.width
-                this_height = this.height
-
-                // alert(this_width + this_height);
-                console.log(`图片尺寸：${this_width} ${this_height}`);
-
-                let [input_w, input_h] = [this.width, this.height]
-                if (input_w / input_h > 3 / 4) {
-                    cw = input_h / h * w
-                    ch = input_h
-                    cx = (input_w - cw) / 2
-                    cy = 0
-
-                } else {
-                    cw = input_w
-                    ch = input_w / w * h
-                    cx = 0
-                    cy = (input_h - ch) / 2
-                }
-                ctx.drawImage(img, cx, cy, cw, ch, 0, 0, w, h)
-                drawLayer(clayers)
-            }
-            img.src = 'a2.jpg';
-        }
     }
