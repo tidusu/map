@@ -61,10 +61,12 @@
         // let canvas = document.body.appendChild(document.createElement('canvas'));
         let canvas = document.getElementById('canvas_holder').appendChild(document.createElement('canvas'));
         let canvas_t = document.getElementById('canvas_holder').appendChild(document.createElement('canvas'));
+        let canvas_w = document.getElementById('canvas_holder').appendChild(document.createElement('canvas'));
         let btn = document.getElementById('btn');
 
         let ctx = canvas.getContext('2d');
         let ctx_t = canvas_t.getContext('2d');
+        let ctx_w = canvas_w.getContext('2d');
 
         // 高清
         let retina_ratio = getPixelRatio(ctx);
@@ -75,15 +77,11 @@
         let w = sytle_w * retina_ratio;
         let h = sytle_h * retina_ratio;
 
-        canvas.width = w;
-        canvas.height = h;
-        canvas.style.width = sytle_w + 'px';
-        canvas.style.height = sytle_h + 'px';
+        canvas.width = canvas_t.width = canvas_w.width = w;
+        canvas.height = canvas_t.height = canvas_w.height = h;
+        canvas.style.width = canvas_t.style.width = canvas_w.style.width = sytle_w + 'px';
+        canvas.style.height = canvas_t.style.height = canvas_w.style.height = sytle_h + 'px';
 
-        canvas_t.width = w;
-        canvas_t.height = h;
-        canvas_t.style.width = sytle_w + 'px';
-        canvas_t.style.height = sytle_h + 'px';
 
         console.log(sytle_w, w, canvas.width, canvas.style.width)
 
@@ -113,55 +111,67 @@
         function drawLayer(layers) {
             layers.forEach(function (layer, i) {
 
-                let cid = layer.name
-                let ctype = layer.type
-                console.log(cid, ctype)
+                let t_id = layer.name
+                let t_type = layer.type
+                let t_str = layer.attr.string
+                console.log(`str:${t_id}\nstr:${t_str}\ntype:${t_type}`)
 
-                if (ctype == 'text') {
+                // 文本
+                if (t_type == 'text') {
                     // 解析字体
-                    font_size = factor(layer.style.fontSize)
-                    font_color = layer.style.color.hex
-                    font_align = layer.style.alignment
-                    font_x = factor(layer.frame.x)
-                    font_y = factor(layer.frame.y)
-                    font_w = factor(layer.frame.width)
-                    font_h = factor(layer.frame.height)
-                    console.log(`x:${font_x},y:${font_y},w:${font_w},h:${font_h},size:${font_size},color:${font_color},align:${font_align}`)
+                    t_size = factor(layer.style.fontSize)
+                    t_color = layer.style.color.hex
+                    t_align = layer.style.alignment
+                    t_x = factor(layer.frame.x)
+                    t_y = factor(layer.frame.y)
+                    t_w = factor(layer.frame.width)
+                    t_h = factor(layer.frame.height)
+                    console.log(`x:${t_x}\ny:${t_y}\nw:${t_w}\nh:${t_h}\nsize:${t_size}\ncolor:${t_color}\nalign:${t_align}`)
 
                     // 文字框
                     ctx_t.fillStyle = "rgba(255, 255, 0, 0.2)"
-                    ctx_t.fillRect(font_x, font_y, font_w, font_h)
+                    ctx_t.fillRect(t_x, t_y, t_w, t_h)
 
                     // 文字
-                    ctx_t.font = `bold ${font_size}px sans-serif`;
-                    if (font_align == 0){
+                    ctx_t.font = `bold ${t_size}px sans-serif`;
+                    // 右齐
+                    if (t_align == 0){
                         ctx_t.textAlign = "end";
-                        font_x = font_x + font_w
-                    }else if (font_align == 1){
+                        t_x = t_x + t_w
+                    // 居中
+                    }else if (t_align == 1){
                         ctx_t.textAlign = "center";
-                        font_x = font_w / 2
+                        t_x = w / 2
                     }else{
                         ctx_t.textAlign = "start";
                     }
                     // ctx_t.textAlign = "start";
                     // ctx_t.textAlign = "center";
                     ctx_t.textBaseline = "top";
-                    ctx_t.fillStyle = font_color;
+                    ctx_t.fillStyle = t_color;
 
-                    
-                    ctx_t.fillText(cid, font_x, font_y);
+                    ctx_t.fillText(t_str, t_x, t_y);
 
                 }
-                if (cid == 'front') {
-
+                // 画框
+                if (t_id == 'front') {
                     var img = new Image();   // 创建一个<img>元素
                     img.onload = function () {
                         ctx.drawImage(img, 0, 0, w, h);
                     }
                     img.src = layer.attr.src
                 }
-                if (layer.name == 'watermark') {
-
+                // 水印
+                if (t_id == 'watermark') {
+                    var img_w = new Image();   // 创建一个<img>元素
+                    w_x = factor(layer.frame.x)
+                    w_y = factor(layer.frame.y)
+                    w_w = factor(layer.frame.width)
+                    w_h = factor(layer.frame.height)
+                    img_w.onload = function () {
+                        ctx_w.drawImage(img_w, w_x, w_y, w_w, w_h);
+                    }
+                    img_w.src = layer.attr.src
                 }
             });
         }
