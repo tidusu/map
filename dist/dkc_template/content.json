@@ -80,209 +80,152 @@
         },
         "id": 3,
         "orderId": 1
-        },{
-            "name": "watermark",
-            "frame": {
-                "x": 7,
-                "y": 7,
-                "width": 40,
-                "height": 40,
-                "rotation": 0
-            },
-            "Visible": 1,
-            "editable": 0,
-            "Responsive": 0,
-            "movable": 0,
-            "type": "image",
-            "attr": {
-                "src": "https://testimg.ifootbook.com/image/mini/watermark/watermark.png",
-                "transform": {
-                    "x": 0,
-                    "y": 0,
-                    "width": 1920,
-                    "height": 1278,
-                    "scale": 1,
-                    "rotation": 0
-                }
-            },
-            "style": {
-                "fillType": "fill",
-                "roundCorner": 0
-            },
-            "id": 4,
-            "orderId": 2
-        },  {
-            "name": "<eoi_hot_achitecture>",
-            "frame": {
-                "x": 76,
-                "y": 422,
-                "width": 223,
-                "height": 43,
-                "rotation": 0
-            },
-            "Visible": 1,
-            "editable": 1,
-            "Responsive": 0,
-            "movable": 0,
-            "type": "text",
-            "attr": {
-                "string": "上海五角场",
-                "isSingleLine": 0,
-                "textCount": 15,
-                "bgcolor": {
-                    "hex": "#ffffff",
-                    "alpha": 0
-                },
-                "labelType": "",
-                "textType": "eoi",
-                "getList": "",
-                "poiId": "",
-                "sharedInfo": ""
-            },
-            "style": {
-                "color": {
-                    "hex": "#000000",
-                    "alpha": 1
-                },
-                "shadows": {
-                    "isEnabled": 0,
-                    "color": {
-                        "hex": "#ffffff",
-                        "alpha": 0
-                    },
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "blurRadius": 0
-                },
-                "fontName": "SourceHanSerifCN-Bold",
-                "fontSize": 14,
-                "lineHeight": 43,
-                "lineSpace": 0,
-                "vertical": 0,
-                "alignment": 1,
-                "frame_align": 1,
-                "margin_top": 20,
-                "margin_bottom": 200,
-                "margin_left": 20,
-                "margin_right": 20
-            },
-            "id": 5,
-            "orderId": 3
-        }, {
-            "name": "<year>.<month_zero>.<day_zero> <hour_12>:<minute><apm_uppercase>",
-            "frame": {
+    }, {
+        "name": "watermark",
+        "frame": {
+            "x": 7,
+            "y": 7,
+            "width": 40,
+            "height": 40,
+            "rotation": 0
+        },
+        "Visible": 1,
+        "editable": 0,
+        "Responsive": 0,
+        "movable": 0,
+        "type": "image",
+        "attr": {
+            "src": "https://testimg.ifootbook.com/image/mini/watermark/watermark.png",
+            "transform": {
                 "x": 0,
-                "y": 465,
-                "width": 375,
-                "height": 34,
+                "y": 0,
+                "width": 1920,
+                "height": 1278,
+                "scale": 1,
                 "rotation": 0
+            }
+        },
+        "style": {
+            "fillType": "fill",
+            "roundCorner": 0
+        },
+        "id": 4,
+        "orderId": 2
+    }, {
+        "name": "<eoi_hot_achitecture>",
+        "frame": {
+            "x": 76,
+            "y": 460,
+            "width": 223,
+            "height": 40,
+            "rotation": 0
+        },
+        "Visible": 1,
+        "editable": 1,
+        "Responsive": 0,
+        "movable": 0,
+        "type": "text",
+        "attr": {
+            "string": "上海五角场 — by 大西瓜",
+            "isSingleLine": 0,
+            "textCount": 15,
+            "bgcolor": {
+                "hex": "#ffffff",
+                "alpha": 0
             },
-            "Visible": 1,
-            "editable": 0,
-            "Responsive": 0,
-            "movable": 0,
-            "type": "text",
-            "attr": {
-                "string": "2019.12.12 18:55:43",
-                "isSingleLine": 1,
-                "textCount": 31,
-                "bgcolor": {
+            "labelType": "",
+            "textType": "eoi",
+            "getList": "",
+            "poiId": "",
+            "sharedInfo": ""
+        },
+        "style": {
+            "color": {
+                "hex": "#000000",
+                "alpha": 1
+            },
+            "shadows": {
+                "isEnabled": 0,
+                "color": {
                     "hex": "#ffffff",
                     "alpha": 0
                 },
-                "labelType": "",
-                "textType": "text",
-                "getList": "",
-                "poiId": "",
-                "sharedInfo": ""
+                "offsetX": 0,
+                "offsetY": 0,
+                "blurRadius": 0
             },
-            "style": {
+            "fontName": "SourceHanSerifCN-Bold",
+            "fontSize": 14,
+            "lineHeight": 10,
+            "lineSpace": 0,
+            "vertical": 0,
+            "alignment": 1,
+            "frame_align": 0,
+            "margin_top": 20,
+            "margin_bottom": 200,
+            "margin_left": 20,
+            "margin_right": 20
+        },
+        "id": 5,
+        "orderId": 3
+    }, {
+        "name": "<year>.<month_zero>.<day_zero> <hour_12>:<minute><apm_uppercase>",
+        "frame": {
+            "x": 76,
+            "y": 432,
+            "width": 223,
+            "height": 17,
+            "rotation": 0
+        },
+        "Visible": 1,
+        "editable": 0,
+        "Responsive": 0,
+        "movable": 0,
+        "type": "text",
+        "attr": {
+            "string": "2020.05.18 10:45PM",
+            "isSingleLine": 1,
+            "textCount": 18,
+            "bgcolor": {
+                "hex": "#ffffff",
+                "alpha": 0
+            },
+            "labelType": "",
+            "textType": "text",
+            "getList": "",
+            "poiId": "",
+            "sharedInfo": ""
+        },
+        "style": {
+            "color": {
+                "hex": "#000000",
+                "alpha": 1
+            },
+            "shadows": {
+                "isEnabled": 0,
                 "color": {
-                    "hex": "#000000",
-                    "alpha": 1
-                },
-                "shadows": {
-                    "isEnabled": 0,
-                    "color": {
-                        "hex": "#ffffff",
-                        "alpha": 0
-                    },
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "blurRadius": 0
-                },
-                "fontName": "SourceHanSerifCN",
-                "fontSize": 12,
-                "lineHeight": 34,
-                "lineSpace": 2.58,
-                "vertical": 0,
-                "alignment": 1,
-                "frame_align": 1,
-                "margin_top": 20,
-                "margin_bottom": 200,
-                "margin_left": 20,
-                "margin_right": 20
-            },
-            "id": 6,
-            "orderId": 4
-        }, {
-            "name": "photo by <usr_id>",
-            "frame": {
-                "x": 76,
-                "y": 389,
-                "width": 223,
-                "height": 14,
-                "rotation": 0
-            },
-            "Visible": 1,
-            "editable": 0,
-            "Responsive": 0,
-            "movable": 0,
-            "type": "text",
-            "attr": {
-                "string": "photo by test12",
-                "isSingleLine": 1,
-                "textCount": 22,
-                "bgcolor": {
                     "hex": "#ffffff",
                     "alpha": 0
                 },
-                "labelType": "",
-                "textType": "text",
-                "getList": "",
-                "poiId": "",
-                "sharedInfo": ""
+                "offsetX": 0,
+                "offsetY": 0,
+                "blurRadius": 0
             },
-            "style": {
-                "color": {
-                    "hex": "#000000",
-                    "alpha": 1
-                },
-                "shadows": {
-                    "isEnabled": 0,
-                    "color": {
-                        "hex": "#ffffff",
-                        "alpha": 0
-                    },
-                    "offsetX": 0,
-                    "offsetY": 0,
-                    "blurRadius": 0
-                },
-                "fontName": "PingFangSC-Light",
-                "fontSize": 10,
-                "lineHeight": 14,
-                "lineSpace": 1.65,
-                "vertical": 0,
-                "alignment": 2,
-                "frame_align": 1,
-                "margin_top": 20,
-                "margin_bottom": 200,
-                "margin_left": 20,
-                "margin_right": 20
-            },
-            "id": 7,
-            "orderId": 5
-        }],
-        "locationList": ["eoi_hot_achitecture.name"],
-        "fontList": ["SourceHanSerifCN-Bold", "SourceHanSerifCN", "PingFangSC-Light"]
-    }
+            "fontName": "SourceHanSerifCN",
+            "fontSize": 12,
+            "lineHeight": 17,
+            "lineSpace": 2.58,
+            "vertical": 0,
+            "alignment": 1,
+            "frame_align": 1,
+            "margin_top": 20,
+            "margin_bottom": 200,
+            "margin_left": 20,
+            "margin_right": 20
+        },
+        "id": 6,
+        "orderId": 4
+    }],
+    "locationList": [],
+    "fontList": ["SourceHanSerifCN-Bold", "SourceHanSerifCN"]
+}
