@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>模版CanvasDemo</title>
+    <meta name="referrer" content="never">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <meta content=”yes” name=”apple-mobile-web-app-capable” />
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/exif-js"></script> -->
+    <script src="exif.js"></script>
+    <!-- <script src="useful.js"></script> -->
+    <script src="draw.js"></script>
+    <link href="main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id='canvas_holder'></div>
+    <div id='btn'></div>
+    <!-- <canvas id="canvas" width="600" height="800"></canvas> -->
+</body>
+<script>
+    $(document).ready(function () {
+        $.getJSON("content.json", function (result) {
+            draw(result);
+        });
+    });
+</script>
+</html>
