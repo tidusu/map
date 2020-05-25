@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>markdown测试</title>
+    <meta name="referrer" content="never">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <meta content=”yes” name=”apple-mobile-web-app-capable” />
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/exif-js"></script> -->
+    <script src="exif.js"></script>
+    <link href="main.css" rel="stylesheet">
+    <style>
+        body{
+            background-color: rgb(0, 121, 90);
+            margin: 5vw;
+        }
+        #content{
+            background-color: white;
+            padding: 5vw;
+        }
+    </style>
+</head>
+<body>
+  <div id="content"></div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+      $(document).ready(function () {
+            $.get("test.md", function (result) {
+                document.getElementById('content').innerHTML = marked(result);
+            });
+            
+        });
+  </script>
+</body>
+</html>

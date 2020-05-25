@@ -211,6 +211,8 @@ function draw(canvas_json,canvas_name,w_ratio) {
                 // 文字
                 ctx_t.font = `bold ${t_size}px sans-serif`;
 
+                t_align = layer.style.alignment
+
                 const [LEFT, CENTER, RIGHT ] = [2, 1, 0]
 
                 // 右齐
@@ -224,8 +226,6 @@ function draw(canvas_json,canvas_name,w_ratio) {
                 }else{
                     ctx_t.textAlign = "start";
                 }
-                // ctx_t.textAlign = "start";
-                // ctx_t.textAlign = "center";
                 ctx_t.textBaseline = "top";
                 ctx_t.fillStyle = t_color;
 
